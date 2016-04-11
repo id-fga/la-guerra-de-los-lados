@@ -2,7 +2,10 @@
 <input id="canal-input" type="text"></input>
 
 <h2>¿Jugador1 o Jugador2?</h2>
-<input id="jugadornro-input" type="text"></input>
+<select id="jugador-select">
+  <option value="jugador1" selected>Jugador1</option> 
+  <option value="jugador2">Jugador2</option>
+</select>
 
 <h2>Nombre de usuario</h2>
 <input id="nombre-input" type="text"></input>

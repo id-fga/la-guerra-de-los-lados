@@ -43,8 +43,9 @@ defmodule Hola.RoomChannel do
         {:noreply, socket}
     end
 
-    def terminate(reason, _socket) do
-        IO.puts "> leave #{inspect reason}"
+    def terminate(reason, socket) do
+        sala_nombre = socket.assigns[:sala_nombre]
+        IO.puts "Salio un integrante de #{sala_nombre}"
         :ok
     end
 

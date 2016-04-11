@@ -57,7 +57,7 @@ socket.connect()
 //
 let nombreInput = $("#nombre-input")
 let canalInput = $("#canal-input")
-let jugadorNroInput = $("#jugadornro-input")
+let jugadorSelect = $("#jugador-select")
 let mensaje = $("#mensaje")
 let channel = null;
 
@@ -66,9 +66,9 @@ nombreInput.on("keypress", event => {
 
         let canalVal = canalInput.val()
         let nombreVal = nombreInput.val()
-        let jugadorNroVal = jugadorNroInput.val()
+        let jugadorVal = jugadorSelect.val()
 
-        channel = socket.channel("rooms:"+canalVal, [jugadorNroVal, nombreVal])
+        channel = socket.channel("rooms:"+canalVal, [jugadorVal, nombreVal])
 
         channel.join()
             .receive("ok", resp => { console.log("Joined successfully", resp) })
