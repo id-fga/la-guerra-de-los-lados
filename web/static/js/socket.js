@@ -78,9 +78,14 @@ nombreInput.on("keypress", event => {
             console.log("Me llega "+payload.body)
         })
 
-        channel.on("lista_jugadores", resp => {
+        channel.on("sala_completa", resp => {
             console.log("Lista de jugadores: ")
-            console.log(resp.resp)
+            console.log(resp.jugador1)
+            console.log(resp.jugador2)
+        })
+
+        channel.on("sala_llena", resp => {
+            alert("Sala llena") 
         })
 
         channel.onError(e => console.log(socket))

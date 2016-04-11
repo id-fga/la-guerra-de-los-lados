@@ -14,21 +14,27 @@ defmodule Hola.RoomChannel do
         end
 
         send(self, :after_join)
-        {:ok, socket}
+        {:ok, assign(socket, :sala_nombre, sala)}
     end
 
     def handle_info(:after_join, socket) do
-        jugadores = Agente.traer_todos
-        IO.puts "#{inspect jugadores}"
-        #IO.puts length(jugadores)
 
-        #case length(jugadores) do
-        #    2   ->  IO.puts "Sala lista"
-        #            broadcast! socket, "lista_jugadores", %{resp: jugadores}
-        #    _   -> :ok
-        #end
+        sala_nombre = socket.assigns[:sala_nombre]
+        todos = Agente.traer_todos
+        sala = todos[String.to_atom(sala_nombre)]
 
-        broadcast! socket, "lista_jugadores", %{}
+        cond do
+            sala.cant_jugadores > 2 ->
+                IO.puts "La sala #{sala_nombre} esta llena"
+                broadcast! socket, "sala_llena", %{}
+
+            sala.cant_jugadores == 2 ->
+                broadcast! socket, "sala_completa", %{jugador1: sala.jugador1, jugador2: sala.jugador2}
+
+            true ->
+                IO.puts "Hay espacio en la sala: #{sala_nombre}"
+        end
+
         {:noreply, socket}
     end
 

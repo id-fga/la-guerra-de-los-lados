@@ -7,6 +7,15 @@ defmodule Hola.Agente do
         Agent.get(__MODULE__, fn todos -> todos end)
     end
 
+    #TODO: Poner en uso
+    def traer_sala(sala_nombre) do
+        todos = Hola.Agente.traer_todos
+        case todos[sala_nombre] do
+            nil     ->  {:error, nil}
+            canal   ->  {:ok, canal}
+        end
+    end
+
     def agregar_sala(canal_nombre) do
         m = %{cant_jugadores: 0, jugador1: false, jugador2: false}
         nuevo = put_in([][canal_nombre], m)
