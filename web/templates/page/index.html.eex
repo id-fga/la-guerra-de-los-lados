@@ -1,0 +1,8 @@
+<h2>Nombre de canal</h2>
+<input id="canal-input" type="text"></input>
+
+<h2>¿Jugador1 o Jugador2?</h2>
+<input id="jugadornro-input" type="text"></input>
+
+<h2>Nombre de usuario</h2>
+<input id="nombre-input" type="text"></input>
