@@ -1,7 +1,11 @@
 function LaGuerraController($scope, $http) {
-    $scope.aa = '2';
+		$scope.guerra = {};
+    $scope.guerra.nombreJugador = '';
 
 
+	$scope.ingresar = function() {
+		alert($scope.guerra.nombreJugador);
+	};
 
 
 }
