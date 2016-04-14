@@ -1,7 +1,12 @@
-<form class="form-inline" name="formIngresar">
+<form class="form-inline" name="formIngresar" ng-show="formIngresarShow">
 	<h2>Nombre</h2>
-	<input type="text" placeholder="Nombre..." ng-model="guerra.nombreJugador" required>
+	<input placeholder="Nombre..." ng-model="guerra.nombreJugador" required>
 	<button class="btn btn-success" ng-click="ingresar()" ng-disabled="formIngresar.$invalid">
 		Entrar
 	</button>
 </form>
+
+<div name="pantallaPrincipal" ng-show="pantallaPrincipalShow">
+			Bienvenido {{ guerra.nombreJugador }}
+
+</div>

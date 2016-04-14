@@ -1342,14 +1342,18 @@ $http:Uc,$httpBackend:Vc,$location:Hc,$log:Ic,$parse:Mc,$route:Pc,$routeParams:Q
 ;"use strict";
 
 require("phoenix_html");
-;'use strict';
+;"use strict";
 
 function LaGuerraController($scope, $http) {
+	$scope.formIngresarShow = true;
+	$scope.pantallaPrincipalShow = false;
+
 	$scope.guerra = {};
-	$scope.guerra.nombreJugador = '';
+	$scope.guerra.nombreJugador;
 
 	$scope.ingresar = function () {
-		alert($scope.guerra.nombreJugador);
+		$scope.formIngresarShow = false;
+		$scope.pantallaPrincipalShow = true;
 	};
 }
 ;"use strict";
