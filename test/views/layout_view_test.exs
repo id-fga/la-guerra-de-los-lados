@@ -1,3 +1,3 @@
-defmodule Hola.LayoutViewTest do
-  use Hola.ConnCase, async: true
+defmodule LaGuerraDeLosLados.LayoutViewTest do
+  use LaGuerraDeLosLados.ConnCase, async: true
 end

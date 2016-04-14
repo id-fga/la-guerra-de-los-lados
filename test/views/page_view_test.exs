@@ -1,3 +1,3 @@
-defmodule Hola.PageViewTest do
-  use Hola.ConnCase, async: true
+defmodule LaGuerraDeLosLados.PageViewTest do
+  use LaGuerraDeLosLados.ConnCase, async: true
 end

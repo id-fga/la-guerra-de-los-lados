@@ -1,4 +1,4 @@
-defmodule Hola.ConnCase do
+defmodule LaGuerraDeLosLados.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -20,21 +20,21 @@ defmodule Hola.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
 
-      alias Hola.Repo
+      alias LaGuerraDeLosLados.Repo
       import Ecto
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
 
-      import Hola.Router.Helpers
+      import LaGuerraDeLosLados.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint Hola.Endpoint
+      @endpoint LaGuerraDeLosLados.Endpoint
     end
   end
 
   setup tags do
     unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(Hola.Repo, [])
+      Ecto.Adapters.SQL.restart_test_transaction(LaGuerraDeLosLados.Repo, [])
     end
 
     {:ok, conn: Phoenix.ConnTest.conn()}

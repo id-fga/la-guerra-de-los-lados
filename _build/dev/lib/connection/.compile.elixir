@@ -1,0 +1,10 @@
+v2.
+{<<"/home/alumno/sandbox/phoenix-tests/la_guerra_de_los_lados/_build/dev/lib/connection/ebin/Elixir.Connection.beam">>,
+ 'Elixir.Connection',module,<<"lib/connection.ex">>,
+ ['Elixir.Keyword','Elixir.Kernel.Typespec','Elixir.Module','Elixir.Protocol',
+  'Elixir.Kernel.Utils','Elixir.GenServer','Elixir.ArgumentError',
+  'Elixir.String.Chars','Elixir.Kernel','Elixir.Behaviour','Elixir.List',
+  erlang],
+ [gen_server,'Elixir.Process','Elixir.Code',error_logger,global,
+  'Elixir.System',gen,code,proc_lib],
+ [],nil}.

@@ -1,12 +1,12 @@
-defmodule Hola.Web do
+defmodule LaGuerraDeLosLados.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use Hola.Web, :controller
-      use Hola.Web, :view
+      use LaGuerraDeLosLados.Web, :controller
+      use LaGuerraDeLosLados.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -30,12 +30,12 @@ defmodule Hola.Web do
     quote do
       use Phoenix.Controller
 
-      alias Hola.Repo
+      alias LaGuerraDeLosLados.Repo
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
-      import Hola.Router.Helpers
-      import Hola.Gettext
+      import LaGuerraDeLosLados.Router.Helpers
+      import LaGuerraDeLosLados.Gettext
     end
   end
 
@@ -49,9 +49,9 @@ defmodule Hola.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import Hola.Router.Helpers
-      import Hola.ErrorHelpers
-      import Hola.Gettext
+      import LaGuerraDeLosLados.Router.Helpers
+      import LaGuerraDeLosLados.ErrorHelpers
+      import LaGuerraDeLosLados.Gettext
     end
   end
 
@@ -65,10 +65,10 @@ defmodule Hola.Web do
     quote do
       use Phoenix.Channel
 
-      alias Hola.Repo
+      alias LaGuerraDeLosLados.Repo
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
-      import Hola.Gettext
+      import LaGuerraDeLosLados.Gettext
     end
   end
 

@@ -1,8 +1,8 @@
-defmodule Hola.Mixfile do
+defmodule LaGuerraDeLosLados.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :hola,
+    [app: :la_guerra_de_los_lados,
      version: "0.0.1",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
@@ -17,7 +17,7 @@ defmodule Hola.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [mod: {Hola, []},
+    [mod: {LaGuerraDeLosLados, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex]]
   end

@@ -1,0 +1,23 @@
+v2.
+{<<"/home/alumno/sandbox/phoenix-tests/la_guerra_de_los_lados/_build/dev/lib/phoenix_live_reload/ebin/Elixir.Phoenix.LiveReload.Channel.beam">>,
+ 'Elixir.Phoenix.LiveReload.Channel',module,
+ <<"lib/phoenix_live_reload/channel.ex">>,
+ ['Elixir.Logger','Elixir.Phoenix.Socket','Elixir.Module',
+  'Elixir.Phoenix.Channel','Elixir.Kernel'],
+ ['Elixir.Path','Elixir.String','Elixir.Application','Elixir.String.Chars',
+  'Elixir.Access',fs,'Elixir.Enum',erlang],
+ [],nil}.
+{<<"/home/alumno/sandbox/phoenix-tests/la_guerra_de_los_lados/_build/dev/lib/phoenix_live_reload/ebin/Elixir.Phoenix.LiveReloader.Socket.beam">>,
+ 'Elixir.Phoenix.LiveReloader.Socket',module,
+ <<"lib/phoenix_live_reload/socket.ex">>,
+ ['Elixir.Phoenix','Elixir.Phoenix.Socket','Elixir.Module','Elixir.Kernel',
+  'Elixir.Phoenix.Transports.LongPoll','Elixir.Phoenix.Transports.WebSocket'],
+ [],[],nil}.
+{<<"/home/alumno/sandbox/phoenix-tests/la_guerra_de_los_lados/_build/dev/lib/phoenix_live_reload/ebin/Elixir.Phoenix.LiveReloader.beam">>,
+ 'Elixir.Phoenix.LiveReloader',module,
+ <<"lib/phoenix_live_reload/live_reloader.ex">>,
+ ['Elixir.Plug','Elixir.File','Elixir.Plug.Conn','Elixir.Module',
+  'Elixir.Application','Elixir.Kernel'],
+ ['Elixir.String','Elixir.String.Chars','Elixir.Access','Elixir.Map',
+  'Elixir.Enum',erlang],
+ [],nil}.

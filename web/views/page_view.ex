@@ -1,3 +1,3 @@
-defmodule Hola.PageView do
-  use Hola.Web, :view
+defmodule LaGuerraDeLosLados.PageView do
+  use LaGuerraDeLosLados.Web, :view
 end

@@ -1,4 +1,4 @@
-defmodule Hola.ModelCase do
+defmodule LaGuerraDeLosLados.ModelCase do
   @moduledoc """
   This module defines the test case to be used by
   model tests.
@@ -16,18 +16,18 @@ defmodule Hola.ModelCase do
 
   using do
     quote do
-      alias Hola.Repo
+      alias LaGuerraDeLosLados.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
-      import Hola.ModelCase
+      import LaGuerraDeLosLados.ModelCase
     end
   end
 
   setup tags do
     unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(Hola.Repo, [])
+      Ecto.Adapters.SQL.restart_test_transaction(LaGuerraDeLosLados.Repo, [])
     end
 
     :ok

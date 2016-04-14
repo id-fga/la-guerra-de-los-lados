@@ -1,5 +1,5 @@
-defmodule Hola.PageControllerTest do
-  use Hola.ConnCase
+defmodule LaGuerraDeLosLados.PageControllerTest do
+  use LaGuerraDeLosLados.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

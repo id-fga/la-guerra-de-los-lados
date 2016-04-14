@@ -54,43 +54,9 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-//
-let nombreInput = $("#nombre-input")
-let canalInput = $("#canal-input")
-let jugadorSelect = $("#jugador-select")
-let mensaje = $("#mensaje")
-let channel = null;
-
-nombreInput.on("keypress", event => {
-    if(event.keyCode === 13) {
-
-        let canalVal = canalInput.val()
-        let nombreVal = nombreInput.val()
-        let jugadorVal = jugadorSelect.val()
-
-        channel = socket.channel("rooms:"+canalVal, [jugadorVal, nombreVal])
-
-        channel.join()
-            .receive("ok", resp => { console.log("Joined successfully", resp) })
-            .receive("error", resp => { console.log("Unable to join", resp) })
-
-        channel.on("new_msg", payload => {
-            console.log("Me llega "+payload.body)
-        })
-
-        channel.on("sala_completa", resp => {
-            console.log("Lista de jugadores: ")
-            console.log(resp.jugador1)
-            console.log(resp.jugador2)
-        })
-
-        channel.on("sala_llena", resp => {
-            alert("Sala llena") 
-        })
-
-        channel.onError(e => console.log(socket))
-    }
-
-})
+let channel = socket.channel("topic:subtopic", {})
+channel.join()
+  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
 
 export default socket

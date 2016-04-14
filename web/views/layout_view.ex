@@ -1,3 +1,3 @@
-defmodule Hola.LayoutView do
-  use Hola.Web, :view
+defmodule LaGuerraDeLosLados.LayoutView do
+  use LaGuerraDeLosLados.Web, :view
 end

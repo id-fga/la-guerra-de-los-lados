@@ -6,12 +6,12 @@
 use Mix.Config
 
 # Configures the endpoint
-config :hola, Hola.Endpoint,
+config :la_guerra_de_los_lados, LaGuerraDeLosLados.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
-  secret_key_base: "L1LAKeS5UeApISUyAmcc5hk8PR/sleokFLf+Bkv2F11OOCUMKrTJt6W1SnkdgM1i",
+  secret_key_base: "vYD1wAudu0/PYF6EIJpFVT79SHagA2RA2O4IZfsmOq7gvC/9BJGxXLheNzN8v7BV",
   render_errors: [accepts: ~w(html json)],
-  pubsub: [name: Hola.PubSub,
+  pubsub: [name: LaGuerraDeLosLados.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger

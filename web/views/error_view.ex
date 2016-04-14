@@ -1,5 +1,5 @@
-defmodule Hola.ErrorView do
-  use Hola.Web, :view
+defmodule LaGuerraDeLosLados.ErrorView do
+  use LaGuerraDeLosLados.Web, :view
 
   def render("404.html", _assigns) do
     "Page not found"

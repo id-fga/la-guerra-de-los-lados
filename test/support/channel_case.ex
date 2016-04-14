@@ -1,4 +1,4 @@
-defmodule Hola.ChannelCase do
+defmodule LaGuerraDeLosLados.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -20,20 +20,20 @@ defmodule Hola.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      alias Hola.Repo
+      alias LaGuerraDeLosLados.Repo
       import Ecto
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
 
 
       # The default endpoint for testing
-      @endpoint Hola.Endpoint
+      @endpoint LaGuerraDeLosLados.Endpoint
     end
   end
 
   setup tags do
     unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(Hola.Repo, [])
+      Ecto.Adapters.SQL.restart_test_transaction(LaGuerraDeLosLados.Repo, [])
     end
 
     :ok

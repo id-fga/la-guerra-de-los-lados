@@ -1,5 +1,5 @@
-defmodule Hola.Router do
-  use Hola.Web, :router
+defmodule LaGuerraDeLosLados.Router do
+  use LaGuerraDeLosLados.Web, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,15 +13,14 @@ defmodule Hola.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", Hola do
+  scope "/", LaGuerraDeLosLados do
     pipe_through :browser # Use the default browser stack
 
-    get "/prueba/:param", PruebaController, :prueba
     get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", Hola do
+  # scope "/api", LaGuerraDeLosLados do
   #   pipe_through :api
   # end
 end
