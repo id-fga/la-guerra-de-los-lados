@@ -1350,6 +1350,7 @@ function LaGuerraController($scope, $http) {
 
 	$scope.guerra = {};
 	$scope.guerra.nombreJugador;
+	$scope.guerra.nombreJugador = "Sebastian";
 
 	$scope.ingresar = function () {
 		$scope.formIngresarShow = false;
