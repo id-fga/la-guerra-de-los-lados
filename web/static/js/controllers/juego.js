@@ -6,13 +6,18 @@ function($scope, $rootScope, $location, $routeParams) {
 	var salaNombre = $routeParams.salaNombre;
 	var jugadorNombre = $routeParams.jugadorNombre;
 
+	o = {
+				salaNombre: salaNombre,
+				jugadorNombre: jugadorNombre
+	};
+
 	$scope.salaNombre = salaNombre;
 
   var socket = new Socket("/socket", {});
   socket.connect();
-	console.log(socket);
 
-	channel = socket.channel("juego:" + salaNombre, {jugadorNombre: jugadorNombre});
+
+	channel = socket.channel("juego:" + salaNombre, o);
 
 
 
