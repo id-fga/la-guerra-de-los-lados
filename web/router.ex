@@ -19,8 +19,8 @@ defmodule LaGuerraDeLosLados.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", LaGuerraDeLosLados do
-  #   pipe_through :api
-  # end
+	scope "/api", LaGuerraDeLosLados do
+		pipe_through :api
+		resources "/salas", SalasController
+  end
 end

@@ -1,15 +1,24 @@
 <h2>Bienvenido {{ jugadorNombre }}</h2>
 
-<div class="row">
-	<div class="col-md-8">
-		<div class="jumbotron">
-			<h3>Crear sala</h3>
-		</div>
-	</div>
 
-	<div class="col-md-4">
-		<div class="jumbotron text-center">
-			<h3>Lista de salas</h3>
+<form class="form-inline" name="formCrearSala">
+	<div class="row">
+		<div class="col-md-8">
+			<div class="jumbotron">
+				<h3>Crear sala</h3>
+				<input placeholder="Nombre de la sala..." ng-model="salaNombre" class="form-control" required>
+				<br>
+				<br>
+ 		   	<button class="btn btn-success btn-lg" ng-click="ingresar()" ng-disabled="formCrearSala.$invalid">
+				Crear
+				</button>
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="jumbotron text-center">
+				<h3>Lista de salas</h3>
+			</div>
 		</div>
 	</div>
-</div>
+</form>
