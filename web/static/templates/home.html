@@ -1,0 +1,14 @@
+<div class="jumbotron form-group">
+  <h2>¿Cuál es tu nombre?</h2>
+  <form ng-submit="ingresar()">
+    <p class="form-group {{errors.name ? 'has-error' : ''}}">
+      <span class="input-group input-group-lg col-xs-12">
+        <input ng-model="guerra.nombreJugador" class="form-control" placeholder="Nombre...">
+      </span>
+    </p>
+    <button type="submit" class="btn btn-primary btn-lg" >
+      Onward
+      <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+    </button>
+  </form>
+</div>

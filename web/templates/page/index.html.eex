@@ -1,27 +1,2 @@
-<form class="form-inline" name="formIngresar" ng-show="formIngresarShow">
-	<h2>Nombre</h2>
-	<input placeholder="Nombre..." ng-model="guerra.nombreJugador" required>
-	<button class="btn btn-success" ng-click="ingresar()" ng-disabled="formIngresar.$invalid">
-		Entrar
-	</button>
-</form>
-
-<div name="pantallaPrincipal" ng-show="pantallaPrincipalShow">
-
-            <div class="row">
-                <div class="col-md-8">
-			        <h3>Bienvenido {{ guerra.nombreJugador }}</h3>
-                </div>
-
-                <div class="col-md-4">
-			        <h3>Lista de salas</h3>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                    </ul>
-                </div>
-            </div>
-            <!--
-            -->
+<div id="content" ng-app="app" ng-view>
 </div>
