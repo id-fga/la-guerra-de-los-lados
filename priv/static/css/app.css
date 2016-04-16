@@ -93,29 +93,28 @@ form.link, form.button {
 /* Main marketing message */
 /* line 96, /home/alumno/sandbox/la-guerra-de-los-lados/web/static/css/app.scss */
 .jumbotron {
-  text-align: center;
   border-bottom: 1px solid #e5e5e5; }
 
 /* Supporting marketing content */
-/* line 102, /home/alumno/sandbox/la-guerra-de-los-lados/web/static/css/app.scss */
+/* line 101, /home/alumno/sandbox/la-guerra-de-los-lados/web/static/css/app.scss */
 .marketing {
   margin: 35px 0; }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
-  /* line 109, /home/alumno/sandbox/la-guerra-de-los-lados/web/static/css/app.scss */
+  /* line 108, /home/alumno/sandbox/la-guerra-de-los-lados/web/static/css/app.scss */
   .header,
   .marketing,
   .footer {
     padding-right: 0;
     padding-left: 0; }
   /* Space out the masthead */
-  /* line 116, /home/alumno/sandbox/la-guerra-de-los-lados/web/static/css/app.scss */
+  /* line 115, /home/alumno/sandbox/la-guerra-de-los-lados/web/static/css/app.scss */
   .header {
     margin-bottom: 30px; }
   /* Remove the bottom border on the jumbotron for visual effect */
-  /* line 120, /home/alumno/sandbox/la-guerra-de-los-lados/web/static/css/app.scss */
+  /* line 119, /home/alumno/sandbox/la-guerra-de-los-lados/web/static/css/app.scss */
   .jumbotron {
     border-bottom: 0; } }
 

@@ -51274,7 +51274,7 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
     }
 
     module.run(["$templateCache", function($templateCache) {
-        $templateCache.put('web/static/templates/home.html', '<div class=\"jumbotron form-group\">\n  <h2>¿Cuál es tu nombre?</h2>\n  <form class=\"form-inline\" name=\"formIngresar\">\n		<span class=\"input-group input-group-lg col-xs-12\">\n			<input ng-model=\"guerra.nombreJugador\" class=\"form-control\" placeholder=\"Nombre...\" required>\n    </span>\n		<br>\n		<br>\n    <button class=\"btn btn-primary btn-lg\" ng-click=\"ingresar()\" ng-disabled=\"formIngresar.$invalid\">\n			Entrar\n    </button>\n  </form>\n</div>\n');
+        $templateCache.put('web/static/templates/home.html', '<div class=\"jumbotron form-group\">\n  <h2>¿Cuál es tu nombre?</h2>\n  <form class=\"form-inline\" name=\"formIngresar\">\n		<span class=\"input-group input-group-lg col-md-12\">\n			<input ng-model=\"guerra.nombreJugador\" class=\"form-control\" placeholder=\"Nombre...\" required>\n    </span>\n		<br>\n		<br>\n    <button class=\"btn btn-primary btn-lg\" ng-click=\"ingresar()\" ng-disabled=\"formIngresar.$invalid\">\n			Entrar\n    </button>\n  </form>\n</div>\n');
     }]);
 })();
 (function() {
@@ -51289,7 +51289,7 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
     }
 
     module.run(["$templateCache", function($templateCache) {
-        $templateCache.put('web/static/templates/lobby.html', '<div class=\"row\">\n	<div class=\"col-md-8\">\n		<div class=\"jumbotron form-group\">\n			<h3>Bienvenido {{ jugadorNombre }}</h3>\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron form-group\">\n			<h3>Lista de salas</h3>\n		</div>\n	</div>\n</div>\n');
+        $templateCache.put('web/static/templates/lobby.html', '<h2>Bienvenido {{ jugadorNombre }}</h2>\n\n<div class=\"row\">\n	<div class=\"col-md-8\">\n		<div class=\"jumbotron\">\n			<h3>Crear sala</h3>\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\">\n			<h3>Lista de salas</h3>\n		</div>\n	</div>\n</div>\n');
     }]);
 })();
 
