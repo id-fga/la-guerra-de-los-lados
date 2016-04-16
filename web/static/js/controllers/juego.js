@@ -11,5 +11,7 @@ function($scope, $rootScope, $location, $routeParams) {
   socket.connect();
 	console.log(socket);
 
+	//channel = socket.channel("juego:" + salaNombre, 
+
 
 }]);
