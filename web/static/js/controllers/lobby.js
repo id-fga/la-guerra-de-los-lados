@@ -7,7 +7,7 @@ function($scope, $rootScope, $location, $routeParams) {
 	$scope.salaNombre = "sala-de-"+jugadorNombre;
 
 	$scope.crearSala = function() {
-		$location.url('/juego/'+$scope.salaNombre+'/'+$scope.jugadorNombre);
+		$location.url('/juego/'+$scope.salaNombre+'/'+$scope.jugadorNombre+'/jugador1');
 	};
 
 }]);

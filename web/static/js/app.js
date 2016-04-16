@@ -10,7 +10,7 @@ config(['$routeProvider',
 			templateUrl: 'web/static/templates/lobby.html',
 			controller: 'lobbyController'
 		}).
-		when('/juego/:salaNombre/:jugadorNombre/', {
+		when('/juego/:salaNombre/:jugadorNombre/:jugadorNro?', {
 			templateUrl: 'web/static/templates/juego.html',
 			controller: 'juegoController'
 		});

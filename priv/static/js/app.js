@@ -51155,7 +51155,7 @@ angular.module('app', ['ngRoute', 'ngAnimate', 'monospaced.qrcode']).config(['$r
 	}).when('/lobby/:jugadorNombre', {
 		templateUrl: 'web/static/templates/lobby.html',
 		controller: 'lobbyController'
-	}).when('/juego/:salaNombre/:jugadorNombre/', {
+	}).when('/juego/:salaNombre/:jugadorNombre/:jugadorNro?', {
 		templateUrl: 'web/static/templates/juego.html',
 		controller: 'juegoController'
 	});
@@ -51235,19 +51235,23 @@ var _phoenix = require('phoenix');
 angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$location', '$routeParams', function ($scope, $rootScope, $location, $routeParams) {
 	var salaNombre = $routeParams.salaNombre;
 	var jugadorNombre = $routeParams.jugadorNombre;
+	var jugadorNumero = $routeParams.jugadorNro || 'jugador2';
+
+	if (jugadorNumero != 'jugador1' && jugadorNumero != 'jugador2') {
+		alert("ERROR");
+		return;
+	}
 
 	o = {
 		salaNombre: salaNombre,
-		jugadorNombre: jugadorNombre
+		jugadorNombre: jugadorNombre,
+		jugadorNumero: jugadorNumero
 	};
-
-	console.log(o);
 
 	$scope.salaNombre = salaNombre;
 
 	var socket = new _phoenix.Socket("/socket", {});
 	socket.connect();
-	console.log(socket);
 
 	channel = socket.channel("juego:" + salaNombre, o);
 
@@ -51262,7 +51266,7 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
 	$scope.salaNombre = "sala-de-" + jugadorNombre;
 
 	$scope.crearSala = function () {
-		$location.url('/juego/' + $scope.salaNombre + '/' + $scope.jugadorNombre);
+		$location.url('/juego/' + $scope.salaNombre + '/' + $scope.jugadorNombre + '/jugador1');
 	};
 }]);
 (function() {

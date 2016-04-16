@@ -5,10 +5,17 @@ angular.module('app').controller('juegoController',
 function($scope, $rootScope, $location, $routeParams) {
 	var salaNombre = $routeParams.salaNombre;
 	var jugadorNombre = $routeParams.jugadorNombre;
+	var jugadorNumero = $routeParams.jugadorNro || 'jugador2';
+
+	if(jugadorNumero != 'jugador1' && jugadorNumero != 'jugador2') {
+		alert("ERROR");
+		return;
+	}
 
 	o = {
 				salaNombre: salaNombre,
-				jugadorNombre: jugadorNombre
+				jugadorNombre: jugadorNombre,
+				jugadorNumero: jugadorNumero
 	};
 
 	$scope.salaNombre = salaNombre;
