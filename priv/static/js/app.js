@@ -51297,9 +51297,22 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
     }
 
     module.run(["$templateCache", function($templateCache) {
-        $templateCache.put('web/static/templates/juego.html', '<h2>{{ salaNombre}}</h2>\n');
+        $templateCache.put('web/static/templates/juego.html', '<h2>Sala: {{ salaNombre }}</h2>\n');
     }]);
 })();
+'use strict';
+
+var _phoenix = require('phoenix');
+
+angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$location', '$routeParams', function ($scope, $rootScope, $location, $routeParams) {
+	var salaNombre = $routeParams.salaNombre;
+
+	$scope.salaNombre = salaNombre;
+
+	var socket = new _phoenix.Socket("/socket", {});
+	socket.connect();
+	console.log(socket);
+}]);
 (function() {
     var module;
 
