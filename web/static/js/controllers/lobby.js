@@ -6,4 +6,8 @@ function($scope, $rootScope, $location, $routeParams) {
 	$scope.jugadorNombre = jugadorNombre;
 	$scope.salaNombre = "sala-de-"+jugadorNombre;
 
+	$scope.crearSala = function() {
+		$location.url('/juego/'+$scope.salaNombre);
+	};
+
 }]);

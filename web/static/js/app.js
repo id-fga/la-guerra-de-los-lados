@@ -9,6 +9,10 @@ config(['$routeProvider',
 		when('/lobby/:jugadorNombre', {
 			templateUrl: 'web/static/templates/lobby.html',
 			controller: 'lobbyController'
+		}).
+		when('/juego/:salaNombre', {
+			templateUrl: 'web/static/templates/juego.html',
+			controller: 'juegoController'
 		});
 }]).
 run(['$location', '$rootScope',

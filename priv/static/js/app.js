@@ -51155,6 +51155,9 @@ angular.module('app', ['ngRoute', 'ngAnimate', 'monospaced.qrcode']).config(['$r
 	}).when('/lobby/:jugadorNombre', {
 		templateUrl: 'web/static/templates/lobby.html',
 		controller: 'lobbyController'
+	}).when('/juego/:salaNombre', {
+		templateUrl: 'web/static/templates/juego.html',
+		controller: 'juegoController'
 	});
 }]).run(['$location', '$rootScope', function ($location, $rootScope) {
 	$rootScope.$location = $location;
@@ -51232,6 +51235,10 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
 
 	$scope.jugadorNombre = jugadorNombre;
 	$scope.salaNombre = "sala-de-" + jugadorNombre;
+
+	$scope.crearSala = function () {
+		$location.url('/juego/' + $scope.salaNombre);
+	};
 }]);
 (function() {
     var module;
@@ -51290,7 +51297,22 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
     }
 
     module.run(["$templateCache", function($templateCache) {
-        $templateCache.put('web/static/templates/lobby.html', '<h2>Bienvenido {{ jugadorNombre }}</h2>\n\n\n<form class=\"form-inline\" name=\"formCrearSala\">\n	<div class=\"row\">\n		<div class=\"col-md-8\">\n			<div class=\"jumbotron\">\n				<h3>Crear sala</h3>\n				<input placeholder=\"Nombre de la sala...\" ng-model=\"salaNombre\" class=\"form-control\" required>\n				<br>\n				<br>\n 		   	<button class=\"btn btn-success btn-lg\" ng-click=\"ingresar()\" ng-disabled=\"formCrearSala.$invalid\">\n				Crear\n				</button>\n			</div>\n		</div>\n\n		<div class=\"col-md-4\">\n			<div class=\"jumbotron text-center\">\n				<h3>Lista de salas</h3>\n			</div>\n		</div>\n	</div>\n</form>\n');
+        $templateCache.put('web/static/templates/juego.html', '<h2>{{ salaNombre}}</h2>\n');
+    }]);
+})();
+(function() {
+    var module;
+
+    try {
+        // Get current templates module
+        module = angular.module('app');
+    } catch (error) {
+        // Or create a new one
+        module = angular.module('app', []);
+    }
+
+    module.run(["$templateCache", function($templateCache) {
+        $templateCache.put('web/static/templates/lobby.html', '<h2>Bienvenido {{ jugadorNombre }}</h2>\n\n\n<form class=\"form-inline\" name=\"formCrearSala\">\n	<div class=\"row\">\n		<div class=\"col-md-8\">\n			<div class=\"jumbotron\">\n				<h3>Crear sala</h3>\n				<input placeholder=\"Nombre de la sala...\" ng-model=\"salaNombre\" class=\"form-control\" required>\n				<br>\n				<br>\n 		   	<button class=\"btn btn-success btn-lg\" ng-click=\"crearSala()\" ng-disabled=\"formCrearSala.$invalid\">\n				Crear\n				</button>\n			</div>\n		</div>\n\n		<div class=\"col-md-4\">\n			<div class=\"jumbotron text-center\">\n				<h3>Lista de salas</h3>\n			</div>\n		</div>\n	</div>\n</form>\n');
     }]);
 })();
 
