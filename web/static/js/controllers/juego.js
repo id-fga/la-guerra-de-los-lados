@@ -4,6 +4,7 @@ angular.module('app').controller('juegoController',
 ['$scope', '$rootScope', '$location', '$routeParams',
 function($scope, $rootScope, $location, $routeParams) {
 	var salaNombre = $routeParams.salaNombre;
+	var jugadorNombre = $routeParams.jugadorNombre;
 
 	$scope.salaNombre = salaNombre;
 
@@ -11,7 +12,15 @@ function($scope, $rootScope, $location, $routeParams) {
   socket.connect();
 	console.log(socket);
 
-	//channel = socket.channel("juego:" + salaNombre, 
+	channel = socket.channel("juego:" + salaNombre, {jugadorNombre: jugadorNombre});
+
+
+
+
+
+
+
+	channel.join();
 
 
 }]);

@@ -51155,7 +51155,7 @@ angular.module('app', ['ngRoute', 'ngAnimate', 'monospaced.qrcode']).config(['$r
 	}).when('/lobby/:jugadorNombre', {
 		templateUrl: 'web/static/templates/lobby.html',
 		controller: 'lobbyController'
-	}).when('/juego/:salaNombre', {
+	}).when('/juego/:jugadorNombre/:salaNombre/', {
 		templateUrl: 'web/static/templates/juego.html',
 		controller: 'juegoController'
 	});
@@ -51230,6 +51230,24 @@ angular.module('app').controller('HomeCtrl', ['$scope', '$rootScope', '$location
 }]);
 'use strict';
 
+var _phoenix = require('phoenix');
+
+angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$location', '$routeParams', function ($scope, $rootScope, $location, $routeParams) {
+	var salaNombre = $routeParams.salaNombre;
+	var jugadorNombre = $routeParams.jugadorNombre;
+
+	$scope.salaNombre = salaNombre;
+
+	var socket = new _phoenix.Socket("/socket", {});
+	socket.connect();
+	console.log(socket);
+
+	channel = socket.channel("juego:" + salaNombre, { jugadorNombre: jugadorNombre });
+
+	channel.join();
+}]);
+'use strict';
+
 angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$location', '$routeParams', function ($scope, $rootScope, $location, $routeParams) {
 	var jugadorNombre = $routeParams.jugadorNombre;
 
@@ -51237,7 +51255,7 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
 	$scope.salaNombre = "sala-de-" + jugadorNombre;
 
 	$scope.crearSala = function () {
-		$location.url('/juego/' + $scope.salaNombre);
+		$location.url('/juego/' + $scope.jugadorNombre + '/' + $scope.salaNombre);
 	};
 }]);
 (function() {
@@ -51300,19 +51318,6 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
         $templateCache.put('web/static/templates/juego.html', '<h2>Sala: {{ salaNombre }}</h2>\n');
     }]);
 })();
-'use strict';
-
-var _phoenix = require('phoenix');
-
-angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$location', '$routeParams', function ($scope, $rootScope, $location, $routeParams) {
-	var salaNombre = $routeParams.salaNombre;
-
-	$scope.salaNombre = salaNombre;
-
-	var socket = new _phoenix.Socket("/socket", {});
-	socket.connect();
-	console.log(socket);
-}]);
 (function() {
     var module;
 
