@@ -51152,6 +51152,9 @@ angular.module('app', ['ngRoute', 'ngAnimate', 'monospaced.qrcode']).config(['$r
 	$routeProvider.when('/', {
 		templateUrl: 'web/static/templates/home.html',
 		controller: 'HomeCtrl'
+	}).when('/lobby/:jugadorNombre', {
+		templateUrl: 'web/static/templates/lobby.html',
+		controller: 'lobbyController'
 	});
 }]).run(['$location', '$rootScope', function ($location, $rootScope) {
 	$rootScope.$location = $location;
@@ -51197,14 +51200,16 @@ angular.module('app').controller('GameCtrl', ['$scope', '$routeParams', '$locati
 }]); /*jshint esnext:true */
 'use strict';
 
+//TODO: Pasar nombre home a otra nomenclatura
 angular.module('app').controller('HomeCtrl', ['$scope', '$rootScope', '$location', '$routeParams', function ($scope, $rootScope, $location, $routeParams) {
 
+  //TODO: Simplificar esto
   $scope.guerra = {};
   $scope.guerra.nombreJugador;
 
   $scope.ingresar = function () {
 
-    alert($scope.guerra.nombreJugador);
+    $location.url('/lobby/' + $scope.guerra.nombreJugador);
 
     /*
       if(name && name.trim().length > 0) {
@@ -51219,6 +51224,13 @@ angular.module('app').controller('HomeCtrl', ['$scope', '$rootScope', '$location
       }
     */
   };
+}]);
+'use strict';
+
+angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$location', '$routeParams', function ($scope, $rootScope, $location, $routeParams) {
+	var jugadorNombre = $routeParams.jugadorNombre;
+
+	$scope.jugadorNombre = jugadorNombre;
 }]);
 (function() {
     var module;
@@ -51263,6 +51275,21 @@ angular.module('app').controller('HomeCtrl', ['$scope', '$rootScope', '$location
 
     module.run(["$templateCache", function($templateCache) {
         $templateCache.put('web/static/templates/home.html', '<div class=\"jumbotron form-group\">\n  <h2>¿Cuál es tu nombre?</h2>\n  <form class=\"form-inline\" name=\"formIngresar\">\n		<span class=\"input-group input-group-lg col-xs-12\">\n			<input ng-model=\"guerra.nombreJugador\" class=\"form-control\" placeholder=\"Nombre...\" required>\n    </span>\n		<br>\n		<br>\n    <button class=\"btn btn-primary btn-lg\" ng-click=\"ingresar()\" ng-disabled=\"formIngresar.$invalid\">\n			Entrar\n    </button>\n  </form>\n</div>\n');
+    }]);
+})();
+(function() {
+    var module;
+
+    try {
+        // Get current templates module
+        module = angular.module('app');
+    } catch (error) {
+        // Or create a new one
+        module = angular.module('app', []);
+    }
+
+    module.run(["$templateCache", function($templateCache) {
+        $templateCache.put('web/static/templates/lobby.html', '<div class=\"row\">\n	<div class=\"col-md-8\">\n		<div class=\"jumbotron form-group\">\n			<h3>Bienvenido {{ jugadorNombre }}</h3>\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron form-group\">\n			<h3>Lista de salas</h3>\n		</div>\n	</div>\n</div>\n');
     }]);
 })();
 

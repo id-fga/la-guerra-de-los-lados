@@ -1,13 +1,15 @@
+//TODO: Pasar nombre home a otra nomenclatura
 angular.module('app').controller('HomeCtrl',
 ['$scope', '$rootScope', '$location', '$routeParams',
 function($scope, $rootScope, $location, $routeParams) {
 
+	//TODO: Simplificar esto
 	$scope.guerra = {};
 	$scope.guerra.nombreJugador;
 
   $scope.ingresar = function() {
 
-		alert($scope.guerra.nombreJugador);
+		$location.url('/lobby/'+$scope.guerra.nombreJugador);
 
 		/*
     if(name && name.trim().length > 0) {
