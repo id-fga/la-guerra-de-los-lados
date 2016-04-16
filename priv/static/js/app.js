@@ -51262,7 +51262,7 @@ angular.module('app').controller('HomeCtrl', ['$scope', '$rootScope', '$location
     }
 
     module.run(["$templateCache", function($templateCache) {
-        $templateCache.put('web/static/templates/home.html', '<div class=\"jumbotron form-group\">\n  <h2>¿Cuál es tu nombre?</h2>\n  <form ng-submit=\"ingresar()\">\n    <p class=\"form-group {{errors.name ? \'has-error\' : \'\'}}\">\n      <span class=\"input-group input-group-lg col-xs-12\">\n        <input ng-model=\"guerra.nombreJugador\" class=\"form-control\" placeholder=\"Nombre...\">\n      </span>\n    </p>\n    <button type=\"submit\" class=\"btn btn-primary btn-lg\" >\n      Onward\n      <span class=\"glyphicon glyphicon-play\" aria-hidden=\"true\"></span>\n    </button>\n  </form>\n</div>\n');
+        $templateCache.put('web/static/templates/home.html', '<div class=\"jumbotron form-group\">\n  <h2>¿Cuál es tu nombre?</h2>\n  <form class=\"form-inline\" name=\"formIngresar\">\n		<span class=\"input-group input-group-lg col-xs-12\">\n			<input ng-model=\"guerra.nombreJugador\" class=\"form-control\" placeholder=\"Nombre...\" required>\n    </span>\n		<br>\n		<br>\n    <button class=\"btn btn-primary btn-lg\" ng-click=\"ingresar()\" ng-disabled=\"formIngresar.$invalid\">\n			Entrar\n    </button>\n  </form>\n</div>\n');
     }]);
 })();
 
