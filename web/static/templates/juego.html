@@ -1,1 +1,28 @@
-<h2>Sala: {{ salaNombre }}</h2>
+<div class="row">
+	<div class="col-md-8">
+		<h4>Sala: {{ salaNombre }}</h4>
+	</div>
+	<div class="col-md-4">
+		<h4>{{ status_msg }}</h4>
+	</div>
+</div>
+
+<div class="row" name="tablero" ng-show="tableroShow">
+	<div class="col-md-4">
+		<div class="jumbotron text-center" ng-click="jugar('jugador1')">
+			Jugador1
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<div class="jumbotron text-center" ng-click="jugar('empate')">
+			Empate
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<div class="jumbotron text-center" ng-click="jugar('jugador2')">
+			Jugador2
+		</div>
+	</div>
+</div>

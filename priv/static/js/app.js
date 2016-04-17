@@ -51248,14 +51248,32 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 		jugadorNumero: jugadorNumero
 	};
 
+	$scope.status_msg = "Esperando a jugador2";
 	$scope.salaNombre = salaNombre;
+	$scope.tableroShow = false;
 
 	var socket = new _phoenix.Socket("/socket", {});
 	socket.connect();
 
 	channel = socket.channel("juego:" + salaNombre, o);
 
+	channel.on('empezar_juego', function () {
+		$scope.status_msg = "A jugar";
+		$scope.tableroShow = true;
+		$scope.$digest();
+	});
+
+	channel.on('proxima_mano', function () {
+		$scope.tableroShow = true;
+		$scope.$digest();
+	});
+
 	channel.join();
+
+	$scope.jugar = function (opcion) {
+		$scope.tableroShow = false;
+		channel.push("jugar", opcion);
+	};
 }]);
 'use strict';
 
@@ -51326,7 +51344,7 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
     }
 
     module.run(["$templateCache", function($templateCache) {
-        $templateCache.put('web/static/templates/juego.html', '<h2>Sala: {{ salaNombre }}</h2>\n');
+        $templateCache.put('web/static/templates/juego.html', '<div class=\"row\">\n	<div class=\"col-md-8\">\n		<h4>Sala: {{ salaNombre }}</h4>\n	</div>\n	<div class=\"col-md-4\">\n		<h4>{{ status_msg }}</h4>\n	</div>\n</div>\n\n<div class=\"row\" name=\"tablero\" ng-show=\"tableroShow\">\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador1\')\">\n			Jugador1\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'empate\')\">\n			Empate\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador2\')\">\n			Jugador2\n		</div>\n	</div>\n</div>\n');
     }]);
 })();
 (function() {
@@ -51341,7 +51359,7 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
     }
 
     module.run(["$templateCache", function($templateCache) {
-        $templateCache.put('web/static/templates/lobby.html', '<h2>Bienvenido {{ jugadorNombre }}</h2>\n\n\n<form class=\"form-inline\" name=\"formCrearSala\">\n	<div class=\"row\">\n		<div class=\"col-md-8\">\n			<div class=\"jumbotron\">\n				<h3>Crear sala</h3>\n				<input placeholder=\"Nombre de la sala...\" ng-model=\"salaNombre\" class=\"form-control\" required>\n				<br>\n				<br>\n 		   	<button class=\"btn btn-success btn-lg\" ng-click=\"crearSala()\" ng-disabled=\"formCrearSala.$invalid\">\n				Crear\n				</button>\n			</div>\n		</div>\n\n		<div class=\"col-md-4\">\n			<div class=\"jumbotron text-center\">\n				<h3>Lista de salas</h3>\n			</div>\n		</div>\n	</div>\n</form>\n');
+        $templateCache.put('web/static/templates/lobby.html', '<h2>Bienvenido {{ jugadorNombre }}</h2>\n\n<form class=\"form-inline\" name=\"formCrearSala\">\n	<div class=\"row\">\n		<div class=\"col-md-8\">\n			<div class=\"jumbotron\">\n				<h3>Crear sala</h3>\n				<input placeholder=\"Nombre de la sala...\" ng-model=\"salaNombre\" class=\"form-control\" required>\n				<br>\n				<br>\n 		   	<button class=\"btn btn-success btn-lg\" ng-click=\"crearSala()\" ng-disabled=\"formCrearSala.$invalid\">\n				Crear\n				</button>\n			</div>\n		</div>\n\n		<div class=\"col-md-4\">\n			<div class=\"jumbotron text-center\">\n				<h3>Lista de salas</h3>\n			</div>\n		</div>\n	</div>\n</form>\n');
     }]);
 })();
 
