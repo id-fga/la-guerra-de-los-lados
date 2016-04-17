@@ -33,6 +33,9 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
   end
 
   def handle_in("jugar", op, socket) do
+    jugador_nombre = socket.assigns.jugador_nombre
+
+    IO.puts "Juega #{inspect jugador_nombre} y elige #{inspect op}"
     broadcast!(socket, "proxima_mano", %{})
     {:noreply, socket}
   end
