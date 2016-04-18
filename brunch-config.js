@@ -5,8 +5,8 @@ exports.config = {
       joinTo: 'js/app.js',
       order: {
         before: [
-          'web/static/vendor/angular.js',
-          'web/static/vendor/jquery-2.1.3.js'
+          'web/static/vendor/angular.min.js',
+          'web/static/vendor/jquery-2.2.3.min.js'
         ]
       }
       // To change the order of concatenation of files, explictly mention here
