@@ -1,9 +1,11 @@
 defmodule LaGuerraDeLosLados.JuegoChannel do
   use Phoenix.Channel
   alias Phoenix.Socket
+  alias LaGuerraDeLosLados.Agent
 
   #TODO: Hacer un chequeo de verdad de la cantidad de jugadores.
   #TODO: Implementar proceso aparte para mantener el estado.
+  #TODO: Arreglar pedido de assigns, es repetir mucho codigo sin necesidad
   def join("juego:" <> salaNombre, params, socket) do
     jugador_sala = params["salaNombre"]
     jugador_nombre = params["jugadorNombre"]
@@ -27,6 +29,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     case jugador_numero do
       "jugador2"  ->  
                       IO.puts "Sala #{inspect jugador_sala} lista"
+                      Agent.agregar_sala(jugador_sala)
                       broadcast!(socket, "empezar_juego", %{})
       _           ->  true
     end
@@ -44,20 +47,30 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     jugador_sala = socket.assigns.jugador_sala
     jugador_numero = socket.assigns.jugador_numero
 
-    IO.puts "#{jugador_nombre} (#{jugador_numero}) de la #{jugador_sala} responde"
+    #IO.puts "#{jugador_nombre} (#{jugador_numero}) de la #{jugador_sala} responde"
 
     {:noreply, socket}
   end
 
   def handle_in("jugar", op, socket) do
     jugador_nombre = socket.assigns.jugador_nombre
+    jugador_sala = socket.assigns.jugador_sala
+    jugador_numero = socket.assigns.jugador_numero
     mano_numero = socket.assigns.mano_numero
 
     IO.puts "Mano: #{mano_numero} Juega #{inspect jugador_nombre} y elige #{inspect op}"
-    broadcast!(socket, "proxima_mano", %{mano_numero: mano_numero})
 
-    {:noreply, assign(socket, :mano_numero, mano_numero + 1)}
+    Agent.agregar_respuesta(jugador_sala, jugador_numero, op)
+
+    case Agent.traer_sala(jugador_sala) |> length do
+      2 ->  Agent.vaciar_respuestas(jugador_sala)
+            broadcast!(socket, "proxima_mano", %{mano_numero: mano_numero})
+
+      _ ->  :ok
+
+    end
+
+    {:noreply, socket}
   end
-
 
 end
