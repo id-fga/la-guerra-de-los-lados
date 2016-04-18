@@ -9,6 +9,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     jugador_nombre = params["jugadorNombre"]
     jugador_numero = params["jugadorNumero"]
 
+    :timer.send_interval(3000, :send_ping)
     send(self, :after_join)
 
     {:ok, socket
@@ -32,6 +33,21 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     {:noreply, socket}
   end
 
+  def handle_info(:send_ping, socket) do
+    push(socket, "ping", %{})
+    {:noreply, socket}
+  end
+
+  def handle_in("pong", op, socket) do
+    jugador_nombre = socket.assigns.jugador_nombre
+    jugador_sala = socket.assigns.jugador_sala
+    jugador_numero = socket.assigns.jugador_numero
+
+    IO.puts "#{jugador_nombre} (#{jugador_numero}) de la #{jugador_sala} responde"
+
+    {:noreply, socket}
+  end
+
   def handle_in("jugar", op, socket) do
     jugador_nombre = socket.assigns.jugador_nombre
 
@@ -39,5 +55,6 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     broadcast!(socket, "proxima_mano", %{})
     {:noreply, socket}
   end
+
 
 end

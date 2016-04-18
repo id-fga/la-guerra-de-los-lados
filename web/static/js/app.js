@@ -1,4 +1,4 @@
-angular.module('app',['ngRoute', 'ngAnimate', 'monospaced.qrcode']).
+angular.module('app',['ngRoute']).
 config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.

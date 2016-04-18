@@ -38,6 +38,10 @@ function($scope, $rootScope, $location, $routeParams) {
 		$scope.$digest();
 	});
 
+	channel.on('ping', function() {
+		channel.push("pong", {});
+	});
+
 
 
 
@@ -49,6 +53,5 @@ function($scope, $rootScope, $location, $routeParams) {
 		$scope.tableroShow = false;
 		channel.push("jugar", opcion);
 	};
-
 
 }]);
