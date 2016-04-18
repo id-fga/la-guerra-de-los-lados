@@ -13,7 +13,8 @@ defmodule LaGuerraDeLosLados do
       supervisor(LaGuerraDeLosLados.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(LaGuerraDeLosLados.Worker, [arg1, arg2, arg3]),
-      worker(LaGuerraDeLosLados.Mano, [])
+      worker(LaGuerraDeLosLados.Mano, []),
+      worker(LaGuerraDeLosLados.Respuestas, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

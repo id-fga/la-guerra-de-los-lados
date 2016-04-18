@@ -18,7 +18,7 @@ function($scope, $rootScope, $location, $routeParams) {
 				jugadorNumero: jugadorNumero
 	};
 
-	$scope.mano_nro = 'Mano: 1';
+	$scope.mano_nro;
 	$scope.status_msg = "Esperando a jugador2"
 	$scope.salaNombre = salaNombre;
 	$scope.tableroShow = false
