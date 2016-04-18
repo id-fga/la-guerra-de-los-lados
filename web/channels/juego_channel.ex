@@ -1,7 +1,7 @@
 defmodule LaGuerraDeLosLados.JuegoChannel do
   use Phoenix.Channel
   alias Phoenix.Socket
-  alias LaGuerraDeLosLados.Agent
+  alias LaGuerraDeLosLados.Mano
 
   #TODO: Hacer un chequeo de verdad de la cantidad de jugadores.
   #TODO: Implementar proceso aparte para mantener el estado.
@@ -29,7 +29,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     case jugador_numero do
       "jugador2"  ->  
                       IO.puts "Sala #{inspect jugador_sala} lista"
-                      Agent.agregar_sala(jugador_sala)
+                      Mano.agregar_sala(jugador_sala)
                       broadcast!(socket, "empezar_juego", %{})
       _           ->  true
     end
@@ -60,10 +60,10 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
 
     IO.puts "Mano: #{mano_numero} Juega #{inspect jugador_nombre} y elige #{inspect op}"
 
-    Agent.agregar_respuesta(jugador_sala, jugador_numero, op)
+    Mano.agregar_respuesta(jugador_sala, jugador_numero, op)
 
-    case Agent.traer_sala(jugador_sala) |> length do
-      2 ->  Agent.vaciar_respuestas(jugador_sala)
+    case Mano.traer_sala(jugador_sala) |> length do
+      2 ->  Mano.vaciar_respuestas(jugador_sala)
             broadcast!(socket, "proxima_mano", %{mano_numero: mano_numero})
 
       _ ->  :ok
