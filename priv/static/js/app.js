@@ -12480,6 +12480,7 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 		jugadorNumero: jugadorNumero
 	};
 
+	$scope.mano_nro = 'Mano: 1';
 	$scope.status_msg = "Esperando a jugador2";
 	$scope.salaNombre = salaNombre;
 	$scope.tableroShow = false;
@@ -12497,7 +12498,7 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 
 	channel.on('proxima_mano', function (estado) {
 		$scope.tableroShow = true;
-		$scope.status_msg = 'Mano: ' + estado.mano_numero;
+		$scope.mano_nro = 'Mano: ' + estado.mano_numero;
 		$scope.$digest();
 	});
 
@@ -12581,7 +12582,7 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
     }
 
     module.run(["$templateCache", function($templateCache) {
-        $templateCache.put('web/static/templates/juego.html', '<div class=\"row\">\n	<div class=\"col-md-8\">\n		<h4>Sala: {{ salaNombre }}</h4>\n	</div>\n	<div class=\"col-md-4\">\n		<h4>{{ status_msg }}</h4>\n	</div>\n</div>\n\n<div class=\"row\" name=\"tablero\" ng-show=\"tableroShow\">\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador1\')\">\n			Jugador1\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'empate\')\">\n			Empate\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador2\')\">\n			Jugador2\n		</div>\n	</div>\n</div>\n');
+        $templateCache.put('web/static/templates/juego.html', '<div class=\"row\">\n	<div class=\"col-md-8\">\n		<h4>Sala: {{ salaNombre }}</h4>\n		<h4>{{ status_msg }}</h4>\n	</div>\n	<div class=\"col-md-4\">\n		<h4>{{ mano_nro }}</h4>\n	</div>\n</div>\n\n<div class=\"row\" name=\"tablero\" ng-show=\"tableroShow\">\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador1\')\">\n			Jugador1\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'empate\')\">\n			Empate\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador2\')\">\n			Jugador2\n		</div>\n	</div>\n</div>\n');
     }]);
 })();
 (function() {

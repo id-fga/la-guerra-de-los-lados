@@ -18,6 +18,7 @@ function($scope, $rootScope, $location, $routeParams) {
 				jugadorNumero: jugadorNumero
 	};
 
+	$scope.mano_nro = 'Mano: 1';
 	$scope.status_msg = "Esperando a jugador2"
 	$scope.salaNombre = salaNombre;
 	$scope.tableroShow = false
@@ -35,7 +36,7 @@ function($scope, $rootScope, $location, $routeParams) {
 
 	channel.on('proxima_mano', function(estado) {
 		$scope.tableroShow = true;
-		$scope.status_msg = 'Mano: '+estado.mano_numero;
+		$scope.mano_nro = 'Mano: '+estado.mano_numero;
 		$scope.$digest();
 	});
 
