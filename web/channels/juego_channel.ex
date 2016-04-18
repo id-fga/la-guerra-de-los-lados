@@ -16,6 +16,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
           |> Socket.assign(:jugador_sala, jugador_sala)
           |> Socket.assign(:jugador_nombre, jugador_nombre)
           |> Socket.assign(:jugador_numero, jugador_numero)
+          |> Socket.assign(:mano_numero, 1)
     }
   end
 
@@ -50,10 +51,12 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
 
   def handle_in("jugar", op, socket) do
     jugador_nombre = socket.assigns.jugador_nombre
+    mano_numero = socket.assigns.mano_numero
 
-    IO.puts "Juega #{inspect jugador_nombre} y elige #{inspect op}"
-    broadcast!(socket, "proxima_mano", %{})
-    {:noreply, socket}
+    IO.puts "Mano: #{mano_numero} Juega #{inspect jugador_nombre} y elige #{inspect op}"
+    broadcast!(socket, "proxima_mano", %{mano_numero: mano_numero})
+
+    {:noreply, assign(socket, :mano_numero, mano_numero + 1)}
   end
 
 

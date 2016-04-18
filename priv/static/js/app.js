@@ -12495,8 +12495,9 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 		$scope.$digest();
 	});
 
-	channel.on('proxima_mano', function () {
+	channel.on('proxima_mano', function (estado) {
 		$scope.tableroShow = true;
+		$scope.status_msg = 'Mano: ' + estado.mano_numero;
 		$scope.$digest();
 	});
 
