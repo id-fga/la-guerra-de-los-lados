@@ -7,10 +7,25 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
   #TODO: Hacer un chequeo de verdad de la cantidad de jugadores.
   #TODO: Implementar proceso aparte para mantener el estado.
   #TODO: Arreglar pedido de assigns, es repetir mucho codigo sin necesidad
+  #TODO: Separar funciones para manejo de mazo
+  def mezclar({:ok, json}) do
+    Map.get(json, "mazo")
+    |> Enum.shuffle
+  end
+
+  def traer_carta(mazo, idx) do
+    Enum.at(mazo, idx)
+  end
+
   def join("juego:" <> salaNombre, params, socket) do
     jugador_sala = params["salaNombre"]
     jugador_nombre = params["jugadorNombre"]
     jugador_numero = params["jugadorNumero"]
+
+    #TODO: Emprolijar esto
+    mazo  = File.read!("priv/data/mazo.json")
+          |> JSON.decode
+          |> mezclar
 
     :timer.send_interval(3000, :send_ping)
     send(self, :after_join)
@@ -20,6 +35,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
           |> Socket.assign(:jugador_nombre, jugador_nombre)
           |> Socket.assign(:jugador_numero, jugador_numero)
           |> Socket.assign(:mano_numero, 1)
+          |> Socket.assign(:mazo, mazo)
     }
   end
 
@@ -59,6 +75,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     jugador_sala = socket.assigns.jugador_sala
     jugador_numero = socket.assigns.jugador_numero
     mano_numero = socket.assigns.mano_numero
+    mazo = socket.assigns.mazo
 
     IO.puts "Mano: #{mano_numero} Juega #{inspect jugador_nombre} y elige #{inspect op}"
 
@@ -67,7 +84,9 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     case Mano.traer_sala(jugador_sala) |> length do
       2 ->  Respuestas.agregar_respuestas(jugador_sala, Mano.traer_sala(jugador_sala))
             Mano.vaciar_respuestas(jugador_sala)
-            broadcast!(socket, "proxima_mano", %{mano_numero: Respuestas.traer_sala(jugador_sala) |> length})
+            i = Respuestas.traer_sala(jugador_sala) |> length
+            broadcast!(socket, "proxima_mano", %{ mano_numero: i,
+                                                  carta: traer_carta(mazo, i)})
 
       _ ->  :ok
 

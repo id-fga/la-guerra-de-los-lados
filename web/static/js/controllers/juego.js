@@ -37,6 +37,8 @@ function($scope, $rootScope, $location, $routeParams) {
 	channel.on('proxima_mano', function(estado) {
 		$scope.tableroShow = true;
 		$scope.mano_nro = 'Mano: '+estado.mano_numero;
+		$scope.carta = estado.carta;
+		console.log($scope.carta);
 		$scope.$digest();
 	});
 
