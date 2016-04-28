@@ -8,6 +8,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
   #TODO: Implementar proceso aparte para mantener el estado.
   #TODO: Arreglar pedido de assigns, es repetir mucho codigo sin necesidad
   #TODO: Separar funciones para manejo de mazo
+  #TODO: Poner constantes prolijas, ej: cantidad de manos
   def mezclar({:ok, json}) do
     Map.get(json, "mazo")
     |> Enum.shuffle
@@ -16,6 +17,23 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
   def traer_carta(mazo, idx) do
     Enum.at(mazo, idx)
   end
+
+  #def enviar_mano(idx, socket) when idx < 24 do
+  def enviar_mano(idx, socket) when idx < 2 do
+    mazo = socket.assigns.mazo
+    broadcast!(socket, "proxima_mano", %{ mano_numero: idx,
+                                          carta: traer_carta(mazo, idx)})
+  end
+
+  def enviar_mano(idx, socket) do
+    IO.puts "FIN DEL JUEGO"
+    jugador_sala = socket.assigns.jugador_sala
+    respuestas = Respuestas.traer_sala(jugador_sala)
+    IO.inspect respuestas
+
+    broadcast!(socket, "fin_juego", %{ respuestas: "respuestas" })
+  end
+
 
   def join("juego:" <> salaNombre, params, socket) do
     jugador_sala = params["salaNombre"]
@@ -75,7 +93,6 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     jugador_sala = socket.assigns.jugador_sala
     jugador_numero = socket.assigns.jugador_numero
     mano_numero = socket.assigns.mano_numero
-    mazo = socket.assigns.mazo
 
     IO.puts "Mano: #{mano_numero} Juega #{inspect jugador_nombre} y elige #{inspect op}"
 
@@ -84,9 +101,11 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     case Mano.traer_sala(jugador_sala) |> length do
       2 ->  Respuestas.agregar_respuestas(jugador_sala, Mano.traer_sala(jugador_sala))
             Mano.vaciar_respuestas(jugador_sala)
-            i = Respuestas.traer_sala(jugador_sala) |> length
-            broadcast!(socket, "proxima_mano", %{ mano_numero: i,
-                                                  carta: traer_carta(mazo, i)})
+
+            Respuestas.traer_sala(jugador_sala)
+            |> length
+            |> enviar_mano(socket)
+            
 
       _ ->  :ok
 

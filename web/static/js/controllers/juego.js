@@ -46,6 +46,13 @@ function($scope, $rootScope, $location, $routeParams) {
 		channel.push("pong", {});
 	});
 
+	channel.on('fin_juego', function(r) {
+		console.log(r);
+		$scope.status_msg = "Termino el juego";
+		$scope.tableroShow = false;
+		$scope.$digest();
+	});
+
 
 
 

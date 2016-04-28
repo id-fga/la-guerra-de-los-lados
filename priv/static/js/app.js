@@ -12508,6 +12508,13 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 		channel.push("pong", {});
 	});
 
+	channel.on('fin_juego', function (r) {
+		console.log(r);
+		$scope.status_msg = "Termino el juego";
+		$scope.tableroShow = false;
+		$scope.$digest();
+	});
+
 	channel.join();
 
 	$scope.jugar = function (opcion) {
