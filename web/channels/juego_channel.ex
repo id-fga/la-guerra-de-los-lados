@@ -25,13 +25,16 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
                                           carta: traer_carta(mazo, idx)})
   end
 
+  #TODO: Chequear este encode y decode
   def enviar_mano(idx, socket) do
     IO.puts "FIN DEL JUEGO"
     jugador_sala = socket.assigns.jugador_sala
-    respuestas = Respuestas.traer_sala(jugador_sala)
-    IO.inspect respuestas
+    {:ok, respuestas} =  Respuestas.traer_sala(jugador_sala)
+                |> JSON.encode!
+                |> JSON.decode
 
-    broadcast!(socket, "fin_juego", %{ respuestas: "respuestas" })
+
+    broadcast!(socket, "fin_juego", %{ respuestas: respuestas })
   end
 
 
