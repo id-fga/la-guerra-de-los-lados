@@ -19,7 +19,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
   end
 
   #def enviar_mano(idx, socket) when idx < 24 do
-  def enviar_mano(idx, socket) when idx < 2 do
+  def enviar_mano(idx, socket) when idx < 1 do
     mazo = socket.assigns.mazo
     broadcast!(socket, "proxima_mano", %{ mano_numero: idx,
                                           carta: traer_carta(mazo, idx)})
@@ -115,6 +115,13 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     end
 
     {:noreply, socket}
+  end
+
+  def terminate(_reason, socket) do
+    jugador_nombre = socket.assigns.jugador_nombre
+
+    IO.puts "Se fue #{inspect jugador_nombre}"
+    :ok
   end
 
 end

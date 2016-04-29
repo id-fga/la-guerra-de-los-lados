@@ -47,10 +47,10 @@ function($scope, $rootScope, $location, $routeParams) {
 	});
 
 	channel.on('fin_juego', function(r) {
-		console.log(r);
 		$scope.status_msg = "Termino el juego";
 		$scope.tableroShow = false;
 		$scope.$digest();
+		channel.leave();
 	});
 
 
