@@ -19,7 +19,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
   end
 
   #def enviar_mano(idx, socket) when idx < 24 do
-  def enviar_mano(idx, socket) when idx < 1 do
+  def enviar_mano(idx, socket) when idx < 3 do
     mazo = socket.assigns.mazo
     broadcast!(socket, "proxima_mano", %{ mano_numero: idx,
                                           carta: traer_carta(mazo, idx)})
@@ -30,8 +30,8 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     IO.puts "FIN DEL JUEGO"
     jugador_sala = socket.assigns.jugador_sala
     {:ok, respuestas} =  Respuestas.traer_sala(jugador_sala)
-                |> JSON.encode!
-                |> JSON.decode
+                      |> JSON.encode!
+                      |> JSON.decode
 
 
     broadcast!(socket, "fin_juego", %{ respuestas: respuestas })

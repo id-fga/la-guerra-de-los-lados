@@ -22,6 +22,8 @@ function($scope, $rootScope, $location, $routeParams) {
 	$scope.status_msg = "Esperando a jugador2"
 	$scope.salaNombre = salaNombre;
 	$scope.tableroShow = false
+	$scope.tablaResultadosShow = false;
+  $scope.rfs;
 
   var socket = new Socket("/socket", {});
   socket.connect();
@@ -47,10 +49,30 @@ function($scope, $rootScope, $location, $routeParams) {
 	});
 
 	channel.on('fin_juego', function(r) {
-		$scope.status_msg = "Termino el juego";
+		$scope.status_msg = '';
+		$scope.mano_nro = '';
 		$scope.tableroShow = false;
-		$scope.$digest();
+		$scope.tablaResultadosShow = true;
+
+		//TODO: Esto debe hacerse en el servidor
+    rfs = r['respuestas'].map(function(m) {
+				o = {};
+
+				if(m[0][0] == "jugador1") {
+								o['jugador1'] = m[0][1];
+								o['jugador2'] = m[1][1];
+				} else {
+								o['jugador1'] = m[1][1];
+								o['jugador2'] = m[0][1];
+				}
+
+				return o;
+		});
+		$scope.rfs = rfs;
+		console.log($scope.rfs);
 		channel.leave();
+
+		$scope.$digest();
 	});
 
 

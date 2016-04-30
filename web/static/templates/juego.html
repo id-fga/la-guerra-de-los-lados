@@ -27,3 +27,22 @@
 		</div>
 	</div>
 </div>
+
+<div class="panel panel-default" name="tabla-resultado" ng-show="tablaResultadosShow">
+  <div class="panel-heading">Resultados</div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Jugador1</th>
+        <th>Jugador2</th>
+        <th>Respuesta correcta</th>
+      </tr>
+			<tbody>
+        <tr ng-repeat="r in rfs">
+          <td>{{ r.jugador1 }}</td>
+          <td>{{ r.jugador2 }}</td>
+        </tr>
+      </tbody>
+  </table>
+</div>
