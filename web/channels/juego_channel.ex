@@ -24,15 +24,16 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
   def comparar_respuestas(_), do: :diferentes
 
   #def enviar_mano(idx, socket) when idx < 2 do
-  def enviar_mano(idx, msj, socket) when idx < 24 do
-    IO.puts "Voy a mandar la mano #{inspect idx}"
-    mazo = socket.assigns.mazo
+  def enviar_mano(carta1, carta2, idx, msj, socket) when idx < 24 do
 
     data = %{
-          mano_numero: idx, 
-          status: msj,
-          carta: traer_carta(mazo, idx)
+      jugador1: carta1,
+      jugador2: carta2,
+      mano_numero: idx, 
+      status: msj
     }
+
+    IO.puts "Voy a mandar la mano #{idx}"
 
     broadcast!(socket, "proxima_mano", data)
   end
@@ -59,10 +60,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     jugador_nombre = params["jugadorNombre"]
     jugador_numero = params["jugadorNumero"]
 
-    #TODO: Emprolijar esto
-    mazo  = File.read!("priv/data/mazo.json")
-          |> JSON.decode
-          |> mezclar
+    
 
     :timer.send_interval(3000, :send_ping)
     send(self, :after_join)
@@ -74,7 +72,6 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
           |> Socket.assign(:mano_numero, 0)
           |> Socket.assign(:contador_guerra, 0)
           |> Socket.assign(:puntaje, 0)
-          |> Socket.assign(:mazo, mazo)
     }
   end
 
@@ -84,17 +81,29 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     jugador_nombre = socket.assigns.jugador_nombre
     mano_numero = socket.assigns.mano_numero
 
+    #TODO: Emprolijar esto
+    mazo  = File.read!("priv/data/mazo.json")
+          |> JSON.decode
+          |> mezclar
+
     case jugador_numero do
       "jugador2"  ->  
                       IO.puts "Sala #{inspect jugador_sala} lista"
                       Mano.agregar_sala(jugador_sala)
                       Respuestas.agregar_jugador(jugador_sala, "jugador2", jugador_nombre)
+                      Respuestas.agregar_mazo(jugador_sala, "jugador2", mazo)
+
+                      carta1 = Respuestas.traer_carta(jugador_sala, "jugador1", 0)
+                      carta2 = Respuestas.traer_carta(jugador_sala, "jugador2", 0)
 
                       broadcast!(socket, "empezar_juego", %{})
-                      enviar_mano(mano_numero, "A jugar", socket)
+
+                      enviar_mano(carta1, carta2, 0, "A jugar", socket)
+
 
       "jugador1"  ->  Respuestas.crear_sala(jugador_sala)
                       Respuestas.agregar_jugador(jugador_sala, "jugador1", jugador_nombre)
+                      Respuestas.agregar_mazo(jugador_sala, "jugador1", mazo)
       _           ->  true
     end
 
@@ -131,16 +140,17 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
       2 ->  
             case Mano.traer_sala(jugador_sala) |> comparar_respuestas do
               {:iguales, r} ->  Respuestas.agregar_respuestas(jugador_sala, Mano.traer_sala(jugador_sala))
-                                enviar_mano(mano_numero + 1, "Muy bien #{op}", socket)
+              #enviar_mano(mano_numero + 1, "Muy bien #{op}", socket)
 
-              :empate       ->  enviar_mano(mano_numero + 1, "Se armo la guerra", socket)
+              :empate       ->  #enviar_mano(mano_numero + 1, "Se armo la guerra", socket)
+                                :ok
 
-              :diferentes   ->  enviar_mano(mano_numero, "Se tienen que poner de acuerdo", socket)
+              :diferentes   ->  #enviar_mano(mano_numero, "Se tienen que poner de acuerdo", socket)
+                                :ok
             end
 
             Mano.vaciar_respuestas(jugador_sala)
 
-            IO.inspect Respuestas.traer_todas
 
             #Respuestas.traer_sala(jugador_sala)
             #|> length
@@ -161,14 +171,14 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     :ok
   end
 
-  intercept ["proxima_mano"]
-  def handle_out("proxima_mano", data, socket) do
-    mano_numero = socket.assigns.mano_numero
-    
-    push(socket, "proxima_mano", data)
-
-    {:noreply, assign(socket, :mano_numero, data[:mano_numero])}
-  end
+  #intercept ["proxima_mano"]
+  #def handle_out("proxima_mano", data, socket) do
+    #mano_numero = socket.assigns.mano_numero
+    # 
+    #push(socket, "proxima_mano", data)
+    #
+    #{:noreply, assign(socket, :mano_numero, data[:mano_numero])}
+    #end
 
 
 end
