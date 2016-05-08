@@ -73,6 +73,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
           |> Socket.assign(:jugador_numero, jugador_numero)
           |> Socket.assign(:mano_numero, 0)
           |> Socket.assign(:contador_guerra, 0)
+          |> Socket.assign(:puntaje, 0)
           |> Socket.assign(:mazo, mazo)
     }
   end
@@ -80,15 +81,20 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
   def handle_info(:after_join, socket) do
     jugador_numero = socket.assigns.jugador_numero
     jugador_sala = socket.assigns.jugador_sala
+    jugador_nombre = socket.assigns.jugador_nombre
     mano_numero = socket.assigns.mano_numero
 
     case jugador_numero do
       "jugador2"  ->  
                       IO.puts "Sala #{inspect jugador_sala} lista"
                       Mano.agregar_sala(jugador_sala)
-                      Respuestas.agregar_sala(jugador_sala)
+                      Respuestas.agregar_jugador(jugador_sala, "jugador2", jugador_nombre)
+
                       broadcast!(socket, "empezar_juego", %{})
                       enviar_mano(mano_numero, "A jugar", socket)
+
+      "jugador1"  ->  Respuestas.crear_sala(jugador_sala)
+                      Respuestas.agregar_jugador(jugador_sala, "jugador1", jugador_nombre)
       _           ->  true
     end
 
@@ -134,6 +140,8 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
 
             Mano.vaciar_respuestas(jugador_sala)
 
+            IO.inspect Respuestas.traer_todas
+
             #Respuestas.traer_sala(jugador_sala)
             #|> length
             #|> enviar_mano(socket)
@@ -161,5 +169,6 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
 
     {:noreply, assign(socket, :mano_numero, data[:mano_numero])}
   end
+
 
 end
