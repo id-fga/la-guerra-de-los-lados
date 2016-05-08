@@ -37,16 +37,14 @@ function($scope, $rootScope, $location, $routeParams) {
 	});
 
 	channel.on('proxima_mano', function(estado) {
+
+		console.log(estado);
+
 		$scope.tableroShow = true;
 		$scope.mano_nro = 'Mano: '+estado.mano_numero;
 		$scope.status_msg = estado.status;
 		$scope.carta = estado.carta;
-		console.log($scope.carta);
 		$scope.$digest();
-	});
-
-	channel.on('sumar_puntaje', function(estado) {
-    console.log(estado);
 	});
 
 	channel.on('ping', function() {
