@@ -45,6 +45,10 @@ function($scope, $rootScope, $location, $routeParams) {
 		$scope.$digest();
 	});
 
+	channel.on('sumar_puntaje', function(estado) {
+    console.log(estado);
+	});
+
 	channel.on('ping', function() {
 		channel.push("pong", {});
 	});
