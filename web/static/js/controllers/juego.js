@@ -19,6 +19,11 @@ function($scope, $rootScope, $location, $routeParams) {
 	};
 
 	$scope.mano_nro;
+	$scope.guerra = 0;
+	$scope.puntaje_jugador1 = 0;
+	$scope.puntaje_jugador2 = 0;
+	$scope.nombre_jugador1;
+	$scope.nombre_jugador2;
 	$scope.status_msg = "Esperando a jugador2"
 	$scope.salaNombre = salaNombre;
 	$scope.tableroShow = false
@@ -30,9 +35,11 @@ function($scope, $rootScope, $location, $routeParams) {
 
 	channel = socket.channel("juego:" + salaNombre, o);
 
-	channel.on('empezar_juego', function() {
+	channel.on('empezar_juego', function(estado) {
 		$scope.status_msg = "A jugar";
 		$scope.tableroShow = true;
+		$scope.nombre_jugador1 = estado.nombre_jugador1;
+		$scope.nombre_jugador2 = estado.nombre_jugador2;
 		$scope.$digest();
 	});
 
@@ -41,7 +48,10 @@ function($scope, $rootScope, $location, $routeParams) {
 		console.log(estado);
 
 		$scope.tableroShow = true;
-		$scope.mano_nro = 'Mano: '+estado.mano_numero;
+		$scope.mano_nro = estado.mano_numero;
+		$scope.guerra = estado.guerra;
+		$scope.puntaje_jugador1 = estado.puntaje_jugador1;
+		$scope.puntaje_jugador2 = estado.puntaje_jugador2;
 		$scope.status_msg = estado.status;
 		$scope.carta = estado.carta;
 		$scope.$digest();
