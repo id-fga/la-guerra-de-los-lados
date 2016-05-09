@@ -122,6 +122,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
 
                       broadcast!(socket, "empezar_juego", data)
 
+                      Respuestas.cerrar_sala(jugador_sala)
                       enviar_mano(carta1, carta2, mano, 0, jugador_sala, "A jugar", socket)
 
 
@@ -238,6 +239,5 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     #
     #{:noreply, assign(socket, :mano_numero, data[:mano_numero])}
     #end
-
-
+    
 end

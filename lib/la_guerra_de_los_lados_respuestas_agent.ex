@@ -13,7 +13,8 @@ defmodule LaGuerraDeLosLados.Respuestas do
               mano: 0,
               respuestas: [],
               mazo_jugador1: [],
-              mazo_jugador2: []
+              mazo_jugador2: [],
+              disponible: true
     }
 
     Agent.update(__MODULE__, fn todas -> Map.put(todas, sala_nombre, mapa) end)
@@ -152,6 +153,30 @@ defmodule LaGuerraDeLosLados.Respuestas do
 
   def traer_todas do
     Agent.get(__MODULE__, fn todas -> todas end)
+  end
+
+  def cerrar_sala(sala_nombre) do
+    todas = traer_todas
+    sala_actual = Map.get(todas, sala_nombre)
+
+    nueva_info = %{ sala_actual | disponible: false }
+    Agent.update(__MODULE__, fn todas -> Map.put(todas, sala_nombre, nueva_info) end)
+  end
+
+  def traer_salas_disponibles do
+    todas = traer_todas
+
+    disponibles = 
+      Enum.filter(todas, fn s ->
+        {_, info} = s
+        info[:disponible] == true
+      end)
+      |> Enum.map(fn d ->
+        {nombre, _} = d
+        nombre
+      end)
+    
+    %{salas: disponibles}
   end
 
 end

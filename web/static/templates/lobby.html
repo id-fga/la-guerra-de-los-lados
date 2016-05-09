@@ -17,6 +17,9 @@
 		<div class="col-md-4">
 			<div class="jumbotron text-center">
 				<h3>Lista de salas</h3>
+				<ul ng-repeat="s in salas_disponibles">
+								<li><a href="http://localhost:4000/#/juego/{{ s }}/{{ jugadorNombre }}/jugador2">{{s}}</a></li>
+				</ul>
 			</div>
 		</div>
 	</div>

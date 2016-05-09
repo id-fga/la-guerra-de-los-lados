@@ -12564,15 +12564,21 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 }]);
 'use strict';
 
-angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$location', '$routeParams', function ($scope, $rootScope, $location, $routeParams) {
-	var jugadorNombre = $routeParams.jugadorNombre;
+angular.module('app').controller('lobbyController', ['$scope', '$http', '$rootScope', '$location', '$routeParams', function ($scope, $http, $rootScope, $location, $routeParams) {
 
-	$scope.jugadorNombre = jugadorNombre;
-	$scope.salaNombre = "sala-de-" + jugadorNombre;
+		$http.get('api/salas/').success(function (r) {
+				$scope.salas_disponibles = r.salas;
+				console.log($scope.salas_disponibles);
+		});
 
-	$scope.crearSala = function () {
-		$location.url('/juego/' + $scope.salaNombre + '/' + $scope.jugadorNombre + '/jugador1');
-	};
+		var jugadorNombre = $routeParams.jugadorNombre;
+
+		$scope.jugadorNombre = jugadorNombre;
+		$scope.salaNombre = "sala-de-" + jugadorNombre;
+
+		$scope.crearSala = function () {
+				$location.url('/juego/' + $scope.salaNombre + '/' + $scope.jugadorNombre + '/jugador1');
+		};
 }]);
 (function() {
     var module;
@@ -12646,7 +12652,7 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
     }
 
     module.run(["$templateCache", function($templateCache) {
-        $templateCache.put('web/static/templates/lobby.html', '<h2>Bienvenido {{ jugadorNombre }}</h2>\n\n<form class=\"form-inline\" name=\"formCrearSala\">\n	<div class=\"row\">\n		<div class=\"col-md-8\">\n			<div class=\"jumbotron\">\n				<h3>Crear sala</h3>\n				<input placeholder=\"Nombre de la sala...\" ng-model=\"salaNombre\" class=\"form-control\" required>\n				<br>\n				<br>\n 		   	<button class=\"btn btn-success btn-lg\" ng-click=\"crearSala()\" ng-disabled=\"formCrearSala.$invalid\">\n				Crear\n				</button>\n			</div>\n		</div>\n\n		<div class=\"col-md-4\">\n			<div class=\"jumbotron text-center\">\n				<h3>Lista de salas</h3>\n			</div>\n		</div>\n	</div>\n</form>\n');
+        $templateCache.put('web/static/templates/lobby.html', '<h2>Bienvenido {{ jugadorNombre }}</h2>\n\n<form class=\"form-inline\" name=\"formCrearSala\">\n	<div class=\"row\">\n		<div class=\"col-md-8\">\n			<div class=\"jumbotron\">\n				<h3>Crear sala</h3>\n				<input placeholder=\"Nombre de la sala...\" ng-model=\"salaNombre\" class=\"form-control\" required>\n				<br>\n				<br>\n 		   	<button class=\"btn btn-success btn-lg\" ng-click=\"crearSala()\" ng-disabled=\"formCrearSala.$invalid\">\n				Crear\n				</button>\n			</div>\n		</div>\n\n		<div class=\"col-md-4\">\n			<div class=\"jumbotron text-center\">\n				<h3>Lista de salas</h3>\n				<ul ng-repeat=\"s in salas_disponibles\">\n								<li><a href=\"http://localhost:4000/#/juego/{{ s }}/{{ jugadorNombre }}/jugador2\">{{s}}</a></li>\n				</ul>\n			</div>\n		</div>\n	</div>\n</form>\n');
     }]);
 })();
 
