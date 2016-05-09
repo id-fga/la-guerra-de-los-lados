@@ -24,12 +24,15 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
   def comparar_respuestas(_), do: :diferentes
 
   #def enviar_mano(idx, socket) when idx < 2 do
-  def enviar_mano(carta1, carta2, idx, msj, socket) when idx < 24 do
+  def enviar_mano(carta1, carta2, idx, cont_guerra, sala, msj, socket) when idx < 24 do
 
     data = %{
       jugador1: carta1,
       jugador2: carta2,
+      puntaje_jugador1: Respuestas.traer_puntaje(sala, "jugador1"),
+      puntaje_jugador2: Respuestas.traer_puntaje(sala, "jugador2"),
       mano_numero: idx, 
+      guerra: cont_guerra,
       status: msj
     }
 
@@ -93,12 +96,19 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
                       Respuestas.agregar_jugador(jugador_sala, "jugador2", jugador_nombre)
                       Respuestas.agregar_mazo(jugador_sala, "jugador2", mazo)
 
-                      carta1 = Respuestas.traer_carta(jugador_sala, "jugador1", 0)
-                      carta2 = Respuestas.traer_carta(jugador_sala, "jugador2", 0)
+                      mano = Respuestas.traer_mano(jugador_sala)
 
-                      broadcast!(socket, "empezar_juego", %{})
+                      carta1 = Respuestas.traer_carta(jugador_sala, "jugador1", mano)
+                      carta2 = Respuestas.traer_carta(jugador_sala, "jugador2", mano)
 
-                      enviar_mano(carta1, carta2, 0, "A jugar", socket)
+                      data = %{
+                                "nombre_jugador1": Respuestas.traer_jugadores(jugador_sala, "jugador1"),
+                                "nombre_jugador2": Respuestas.traer_jugadores(jugador_sala, "jugador2")
+                      }
+
+                      broadcast!(socket, "empezar_juego", data)
+
+                      enviar_mano(carta1, carta2, mano, 0, jugador_sala, "A jugar", socket)
 
 
       "jugador1"  ->  Respuestas.crear_sala(jugador_sala)
@@ -132,7 +142,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     jugador_numero = socket.assigns.jugador_numero
     mano_numero = socket.assigns.mano_numero
 
-    IO.puts "Mano: #{mano_numero} Juega #{inspect jugador_nombre} y elige #{inspect op}"
+    IO.puts "Sala: #{jugador_sala} Juega #{inspect jugador_nombre} y elige #{inspect op}"
 
     Mano.agregar_respuesta(jugador_sala, jugador_numero, op)
 
@@ -140,13 +150,41 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
       2 ->  
             case Mano.traer_sala(jugador_sala) |> comparar_respuestas do
               {:iguales, r} ->  Respuestas.agregar_respuestas(jugador_sala, Mano.traer_sala(jugador_sala))
-              #enviar_mano(mano_numero + 1, "Muy bien #{op}", socket)
+                                Respuestas.avanzar_mano(jugador_sala)
 
-              :empate       ->  #enviar_mano(mano_numero + 1, "Se armo la guerra", socket)
-                                :ok
+                                case Respuestas.traer_guerra(jugador_sala) do
+                                  0 ->  IO.puts "No hay guerra"
+                                        Respuestas.sumar_puntaje(jugador_sala, r, 1)
+                                  v ->  IO.puts "Hay guerra y tengo que sumar #{v} a #{r}"
+                                        Respuestas.reset_guerra(jugador_sala)
+                                        Respuestas.sumar_puntaje(jugador_sala, r, v + 1)
+                                end
 
-              :diferentes   ->  #enviar_mano(mano_numero, "Se tienen que poner de acuerdo", socket)
-                                :ok
+                                mano = Respuestas.traer_mano(jugador_sala)
+                                carta1 = Respuestas.traer_carta(jugador_sala, "jugador1", mano)
+                                carta2 = Respuestas.traer_carta(jugador_sala, "jugador2", mano)
+
+                                enviar_mano(carta1, carta2, mano, 0, jugador_sala, "Muy bien #{op}", socket)
+
+              :empate       ->  Respuestas.agregar_respuestas(jugador_sala, Mano.traer_sala(jugador_sala))
+                                Respuestas.avanzar_mano(jugador_sala)
+                                Respuestas.avanzar_guerra(jugador_sala)
+
+                                mano = Respuestas.traer_mano(jugador_sala)
+                                carta1 = Respuestas.traer_carta(jugador_sala, "jugador1", mano)
+                                carta2 = Respuestas.traer_carta(jugador_sala, "jugador2", mano)
+
+                                guerra = Respuestas.traer_guerra(jugador_sala)
+
+                                enviar_mano(carta1, carta2, mano, guerra, jugador_sala, "Se armo la guerra", socket)
+
+              :diferentes   ->  mano = Respuestas.traer_mano(jugador_sala)
+                                carta1 = Respuestas.traer_carta(jugador_sala, "jugador1", mano)
+                                carta2 = Respuestas.traer_carta(jugador_sala, "jugador2", mano)
+
+                                guerra = Respuestas.traer_guerra(jugador_sala)
+
+                                enviar_mano(carta1, carta2, mano, guerra, jugador_sala, "Se tienen que poner de acuerdo", socket)
             end
 
             Mano.vaciar_respuestas(jugador_sala)

@@ -12481,6 +12481,11 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 	};
 
 	$scope.mano_nro;
+	$scope.guerra = 0;
+	$scope.puntaje_jugador1 = 0;
+	$scope.puntaje_jugador2 = 0;
+	$scope.nombre_jugador1;
+	$scope.nombre_jugador2;
 	$scope.status_msg = "Esperando a jugador2";
 	$scope.salaNombre = salaNombre;
 	$scope.tableroShow = false;
@@ -12492,9 +12497,11 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 
 	channel = socket.channel("juego:" + salaNombre, o);
 
-	channel.on('empezar_juego', function () {
+	channel.on('empezar_juego', function (estado) {
 		$scope.status_msg = "A jugar";
 		$scope.tableroShow = true;
+		$scope.nombre_jugador1 = estado.nombre_jugador1;
+		$scope.nombre_jugador2 = estado.nombre_jugador2;
 		$scope.$digest();
 	});
 
@@ -12503,7 +12510,10 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 		console.log(estado);
 
 		$scope.tableroShow = true;
-		$scope.mano_nro = 'Mano: ' + estado.mano_numero;
+		$scope.mano_nro = estado.mano_numero;
+		$scope.guerra = estado.guerra;
+		$scope.puntaje_jugador1 = estado.puntaje_jugador1;
+		$scope.puntaje_jugador2 = estado.puntaje_jugador2;
 		$scope.status_msg = estado.status;
 		$scope.carta = estado.carta;
 		$scope.$digest();
@@ -12616,7 +12626,7 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
     }
 
     module.run(["$templateCache", function($templateCache) {
-        $templateCache.put('web/static/templates/juego.html', '<div class=\"row\">\n	<div class=\"col-md-8\">\n		<h4>Sala: {{ salaNombre }}</h4>\n		<h4>{{ status_msg }}</h4>\n	</div>\n	<div class=\"col-md-4\">\n		<h4>{{ mano_nro }}</h4>\n	</div>\n</div>\n\n<div class=\"row\" name=\"tablero\" ng-show=\"tableroShow\">\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador1\')\">\n			Jugador1\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'empate\')\">\n			Empate\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador2\')\">\n			Jugador2\n		</div>\n	</div>\n</div>\n\n<div class=\"panel panel-default\" name=\"tabla-resultado\" ng-show=\"tablaResultadosShow\">\n  <div class=\"panel-heading\">Resultados</div>\n\n  <table class=\"table\">\n    <thead>\n      <tr>\n        <th>Jugador1</th>\n        <th>Jugador2</th>\n        <th>Respuesta correcta</th>\n      </tr>\n			<tbody>\n        <tr ng-repeat=\"r in rfs\">\n          <td>{{ r.jugador1 }}</td>\n          <td>{{ r.jugador2 }}</td>\n        </tr>\n      </tbody>\n  </table>\n</div>\n');
+        $templateCache.put('web/static/templates/juego.html', '<div class=\"row\">\n	<div class=\"col-md-8\">\n		<h4>Sala: {{ salaNombre }}</h4>\n		<h4>{{ status_msg }}</h4>\n	</div>\n	<div class=\"col-md-4\">\n		<h4>Mano: {{ mano_nro }}</h4>\n		<h4>Guerra: {{ guerra }}</h4>\n	</div>\n</div>\n\n<div class=\"row\" name=\"tablero\" ng-show=\"tableroShow\">\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador1\')\">\n				<div>{{ nombre_jugador1 }}</div>\n				<div>Puntaje: {{ puntaje_jugador1 }}</div>\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'empate\')\">\n				<div>Empate</div>\n		</div>\n	</div>\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador2\')\">\n				<div>{{ nombre_jugador2 }}</div>\n				<div>Puntaje: {{ puntaje_jugador2 }}</div>\n		</div>\n	</div>\n</div>\n\n<div class=\"panel panel-default\" name=\"tabla-resultado\" ng-show=\"tablaResultadosShow\">\n  <div class=\"panel-heading\">Resultados</div>\n\n  <table class=\"table\">\n    <thead>\n      <tr>\n        <th>Jugador1</th>\n        <th>Jugador2</th>\n        <th>Respuesta correcta</th>\n      </tr>\n			<tbody>\n        <tr ng-repeat=\"r in rfs\">\n          <td>{{ r.jugador1 }}</td>\n          <td>{{ r.jugador2 }}</td>\n        </tr>\n      </tbody>\n  </table>\n</div>\n');
     }]);
 })();
 (function() {
