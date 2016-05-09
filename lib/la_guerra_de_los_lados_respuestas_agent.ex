@@ -143,6 +143,13 @@ defmodule LaGuerraDeLosLados.Respuestas do
 
   end
 
+  def traer_respuestas(sala_nombre) do
+    todas = traer_todas
+    sala_actual = Map.get(todas, sala_nombre)
+
+    sala_actual[:respuestas]
+  end
+
   def traer_todas do
     Agent.get(__MODULE__, fn todas -> todas end)
   end

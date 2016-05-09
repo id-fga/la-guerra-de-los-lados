@@ -24,6 +24,8 @@ function($scope, $rootScope, $location, $routeParams) {
 	$scope.puntaje_jugador2 = 0;
 	$scope.nombre_jugador1;
 	$scope.nombre_jugador2;
+	$scope.lados_carta1 = 0;
+	$scope.lados_carta2 = 0;
 	$scope.status_msg = "Esperando a jugador2"
 	$scope.salaNombre = salaNombre;
 	$scope.tableroShow = false
@@ -52,6 +54,8 @@ function($scope, $rootScope, $location, $routeParams) {
 		$scope.guerra = estado.guerra;
 		$scope.puntaje_jugador1 = estado.puntaje_jugador1;
 		$scope.puntaje_jugador2 = estado.puntaje_jugador2;
+		$scope.lados_carta1 = estado.jugador1.lados;
+		$scope.lados_carta2 = estado.jugador2.lados;
 		$scope.status_msg = estado.status;
 		$scope.carta = estado.carta;
 		$scope.$digest();
@@ -62,6 +66,7 @@ function($scope, $rootScope, $location, $routeParams) {
 	});
 
 	channel.on('fin_juego', function(r) {
+    console.log(r);
 		$scope.status_msg = '';
 		$scope.mano_nro = '';
 		$scope.tableroShow = false;
@@ -81,8 +86,8 @@ function($scope, $rootScope, $location, $routeParams) {
 
 				return o;
 		});
+
 		$scope.rfs = rfs;
-		console.log($scope.rfs);
 		channel.leave();
 
 		$scope.$digest();

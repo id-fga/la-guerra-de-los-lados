@@ -12486,6 +12486,8 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 	$scope.puntaje_jugador2 = 0;
 	$scope.nombre_jugador1;
 	$scope.nombre_jugador2;
+	$scope.lados_carta1 = 0;
+	$scope.lados_carta2 = 0;
 	$scope.status_msg = "Esperando a jugador2";
 	$scope.salaNombre = salaNombre;
 	$scope.tableroShow = false;
@@ -12514,6 +12516,8 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 		$scope.guerra = estado.guerra;
 		$scope.puntaje_jugador1 = estado.puntaje_jugador1;
 		$scope.puntaje_jugador2 = estado.puntaje_jugador2;
+		$scope.lados_carta1 = estado.jugador1.lados;
+		$scope.lados_carta2 = estado.jugador2.lados;
 		$scope.status_msg = estado.status;
 		$scope.carta = estado.carta;
 		$scope.$digest();
@@ -12524,6 +12528,7 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 	});
 
 	channel.on('fin_juego', function (r) {
+		console.log(r);
 		$scope.status_msg = '';
 		$scope.mano_nro = '';
 		$scope.tableroShow = false;
@@ -12543,8 +12548,8 @@ angular.module('app').controller('juegoController', ['$scope', '$rootScope', '$l
 
 			return o;
 		});
+
 		$scope.rfs = rfs;
-		console.log($scope.rfs);
 		channel.leave();
 
 		$scope.$digest();
@@ -12626,7 +12631,7 @@ angular.module('app').controller('lobbyController', ['$scope', '$rootScope', '$l
     }
 
     module.run(["$templateCache", function($templateCache) {
-        $templateCache.put('web/static/templates/juego.html', '<div class=\"row\">\n	<div class=\"col-md-8\">\n		<h4>Sala: {{ salaNombre }}</h4>\n		<h4>{{ status_msg }}</h4>\n	</div>\n	<div class=\"col-md-4\">\n		<h4>Mano: {{ mano_nro }}</h4>\n		<h4>Guerra: {{ guerra }}</h4>\n	</div>\n</div>\n\n<div class=\"row\" name=\"tablero\" ng-show=\"tableroShow\">\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador1\')\">\n				<div>{{ nombre_jugador1 }}</div>\n				<div>Puntaje: {{ puntaje_jugador1 }}</div>\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'empate\')\">\n				<div>Empate</div>\n		</div>\n	</div>\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador2\')\">\n				<div>{{ nombre_jugador2 }}</div>\n				<div>Puntaje: {{ puntaje_jugador2 }}</div>\n		</div>\n	</div>\n</div>\n\n<div class=\"panel panel-default\" name=\"tabla-resultado\" ng-show=\"tablaResultadosShow\">\n  <div class=\"panel-heading\">Resultados</div>\n\n  <table class=\"table\">\n    <thead>\n      <tr>\n        <th>Jugador1</th>\n        <th>Jugador2</th>\n        <th>Respuesta correcta</th>\n      </tr>\n			<tbody>\n        <tr ng-repeat=\"r in rfs\">\n          <td>{{ r.jugador1 }}</td>\n          <td>{{ r.jugador2 }}</td>\n        </tr>\n      </tbody>\n  </table>\n</div>\n');
+        $templateCache.put('web/static/templates/juego.html', '<div class=\"row\">\n	<div class=\"col-md-8\">\n		<h4>Sala: {{ salaNombre }}</h4>\n		<h4>{{ status_msg }}</h4>\n	</div>\n	<div class=\"col-md-4\">\n		<h4>Mano: {{ mano_nro }}</h4>\n		<h4>Guerra: {{ guerra }}</h4>\n	</div>\n</div>\n\n<div class=\"row\" name=\"tablero\" ng-show=\"tableroShow\">\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador1\')\">\n				<div>{{ nombre_jugador1 }}</div>\n				<div>Puntaje: {{ puntaje_jugador1 }}</div>\n				<div>Lados: {{ lados_carta1 }}</div>\n		</div>\n	</div>\n\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'empate\')\">\n				<div>Empate</div>\n		</div>\n	</div>\n	<div class=\"col-md-4\">\n		<div class=\"jumbotron text-center\" ng-click=\"jugar(\'jugador2\')\">\n				<div>{{ nombre_jugador2 }}</div>\n				<div>Puntaje: {{ puntaje_jugador2 }}</div>\n				<div>Lados: {{ lados_carta2 }}</div>\n		</div>\n	</div>\n</div>\n\n<div class=\"panel panel-default\" name=\"tabla-resultado\" ng-show=\"tablaResultadosShow\">\n  <div class=\"panel-heading\">Resultados</div>\n\n  <table class=\"table\">\n    <thead>\n      <tr>\n        <th>Jugador1</th>\n        <th>Jugador2</th>\n        <th>Respuesta correcta</th>\n      </tr>\n			<tbody>\n        <tr ng-repeat=\"r in rfs\">\n          <td>{{ r.jugador1 }}</td>\n          <td>{{ r.jugador2 }}</td>\n        </tr>\n      </tbody>\n  </table>\n</div>\n');
     }]);
 })();
 (function() {

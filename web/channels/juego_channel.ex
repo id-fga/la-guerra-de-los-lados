@@ -23,8 +23,25 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
   def comparar_respuestas([{_, r}, {_, r}]), do: {:iguales, r}
   def comparar_respuestas(_), do: :diferentes
 
-  #def enviar_mano(idx, socket) when idx < 2 do
-  def enviar_mano(carta1, carta2, idx, cont_guerra, sala, msj, socket) when idx < 24 do
+
+  #TODO: Rehacer esta funcion
+  def decidir_respuesta_correcta(mano, sala) do
+    carta1 = Respuestas.traer_carta(sala, "jugador1", mano)
+    carta2 = Respuestas.traer_carta(sala, "jugador2", mano)
+
+    lados_carta1 = carta1["lados"]
+    lados_carta2 = carta2["lados"]
+
+    cond do
+      lados_carta1 == lados_carta2  -> "empate"
+      lados_carta1 > lados_carta2   -> "carta1"
+      lados_carta1 < lados_carta2   -> "carta2"
+    end
+
+  end
+
+  #def enviar_mano(carta1, carta2, idx, cont_guerra, sala, msj, socket) when idx < 24 do
+  def enviar_mano(carta1, carta2, idx, cont_guerra, sala, msj, socket) when idx < 2 do
 
     data = %{
       jugador1: carta1,
@@ -41,21 +58,18 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     broadcast!(socket, "proxima_mano", data)
   end
 
-  def enviar_mano(idx, _, socket) do
-    IO.puts "FIN DEL JUEGO"
-    broadcast!(socket, "fin_juego", %{})
-  end
-
   #TODO: Chequear este encode y decode
-  #def enviar_mano(idx, socket) do
-    #  IO.puts "FIN DEL JUEGO"
-    #jugador_sala = socket.assigns.jugador_sala
-    #{:ok, respuestas} =  Respuestas.traer_sala(jugador_sala)
-    #                  |> JSON.encode!
-    #                  |> JSON.decode
+  def enviar_mano(_, _, _, _, sala, msj, socket) do
+    IO.puts "FIN DEL JUEGO"
 
-    #broadcast!(socket, "fin_juego", %{ respuestas: respuestas })
-    #  end
+    {:ok, respuestas} =  Respuestas.traer_respuestas(sala)
+                      |> JSON.encode!
+                      |> JSON.decode
+
+    IO.inspect respuestas
+
+    broadcast!(socket, "fin_juego", %{ respuestas: respuestas })
+  end
 
 
   def join("juego:" <> salaNombre, params, socket) do
@@ -146,10 +160,13 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
 
     Mano.agregar_respuesta(jugador_sala, jugador_numero, op)
 
+    #TODO: Llamar a las funciones una sola vez
     case Mano.traer_sala(jugador_sala) |> length do
       2 ->  
             case Mano.traer_sala(jugador_sala) |> comparar_respuestas do
-              {:iguales, r} ->  Respuestas.agregar_respuestas(jugador_sala, Mano.traer_sala(jugador_sala))
+                                #TODO: Arreglar esto de agregar_respuestas con el array final
+              {:iguales, r} ->  rc = Respuestas.traer_mano(jugador_sala) |> decidir_respuesta_correcta(jugador_sala)
+                                Respuestas.agregar_respuestas(jugador_sala, [Mano.traer_sala(jugador_sala)])
                                 Respuestas.avanzar_mano(jugador_sala)
 
                                 case Respuestas.traer_guerra(jugador_sala) do
@@ -167,7 +184,10 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
 
                                 enviar_mano(carta1, carta2, mano, 0, jugador_sala, "Muy bien #{ganador}", socket)
 
-              :empate       ->  Respuestas.agregar_respuestas(jugador_sala, Mano.traer_sala(jugador_sala))
+                                #TODO: Arreglar esto de agregar_respuestas con el array final
+              :empate       ->  
+                                rc = Respuestas.traer_mano(jugador_sala) |> decidir_respuesta_correcta(jugador_sala)
+                                Respuestas.agregar_respuestas(jugador_sala, [Mano.traer_sala(jugador_sala)])
                                 Respuestas.avanzar_mano(jugador_sala)
                                 Respuestas.avanzar_guerra(jugador_sala)
 
