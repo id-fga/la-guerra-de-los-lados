@@ -153,10 +153,9 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
                                 Respuestas.avanzar_mano(jugador_sala)
 
                                 case Respuestas.traer_guerra(jugador_sala) do
-                                  0 ->  IO.puts "No hay guerra"
-                                        Respuestas.sumar_puntaje(jugador_sala, r, 1)
-                                  v ->  IO.puts "Hay guerra y tengo que sumar #{v} a #{r}"
-                                        Respuestas.reset_guerra(jugador_sala)
+                                  0 ->  Respuestas.sumar_puntaje(jugador_sala, r, 1)
+
+                                  v ->  Respuestas.reset_guerra(jugador_sala)
                                         Respuestas.sumar_puntaje(jugador_sala, r, v + 1)
                                 end
 
@@ -164,7 +163,9 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
                                 carta1 = Respuestas.traer_carta(jugador_sala, "jugador1", mano)
                                 carta2 = Respuestas.traer_carta(jugador_sala, "jugador2", mano)
 
-                                enviar_mano(carta1, carta2, mano, 0, jugador_sala, "Muy bien #{op}", socket)
+                                ganador = Respuestas.traer_jugadores(jugador_sala, op)
+
+                                enviar_mano(carta1, carta2, mano, 0, jugador_sala, "Muy bien #{ganador}", socket)
 
               :empate       ->  Respuestas.agregar_respuestas(jugador_sala, Mano.traer_sala(jugador_sala))
                                 Respuestas.avanzar_mano(jugador_sala)
