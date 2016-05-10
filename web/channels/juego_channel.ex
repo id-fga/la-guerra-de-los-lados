@@ -41,7 +41,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
   end
 
   #def enviar_mano(carta1, carta2, idx, cont_guerra, sala, msj, socket) when idx < 24 do
-  def enviar_mano(carta1, carta2, idx, cont_guerra, sala, msj, socket) when idx < 2 do
+  def enviar_mano(carta1, carta2, idx, cont_guerra, sala, msj, socket) when idx < 24 do
 
     data = %{
       jugador1: carta1,
@@ -145,7 +145,7 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
     jugador_sala = socket.assigns.jugador_sala
     jugador_numero = socket.assigns.jugador_numero
 
-    #IO.puts "#{jugador_nombre} (#{jugador_numero}) de la #{jugador_sala} responde"
+    IO.puts "#{jugador_nombre} (#{jugador_numero}) de la #{jugador_sala} responde"
 
     {:noreply, socket}
   end
@@ -211,12 +211,6 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
 
             Mano.vaciar_respuestas(jugador_sala)
 
-
-            #Respuestas.traer_sala(jugador_sala)
-            #|> length
-            #|> enviar_mano(socket)
-
-
       _ ->  :ok
 
     end
@@ -229,6 +223,22 @@ defmodule LaGuerraDeLosLados.JuegoChannel do
 
     IO.puts "Se fue #{inspect jugador_nombre}"
     :ok
+  end
+
+  def handle_in("emergencia", info, socket) do
+    jugador_sala = socket.assigns.jugador_sala
+
+    mano = Respuestas.traer_mano(jugador_sala)
+    carta1 = Respuestas.traer_carta(jugador_sala, "jugador1", mano)
+    carta2 = Respuestas.traer_carta(jugador_sala, "jugador2", mano)
+
+    guerra = Respuestas.traer_guerra(jugador_sala)
+
+    IO.puts "ME LLEGA EMERGENCIA #{inspect info}"
+    IO.puts "ENVIO DE NUEVO LA MANO #{mano}"
+    
+    enviar_mano(carta1, carta2, mano, guerra, jugador_sala, "Fue de emergencia", socket)
+    {:noreply, socket}
   end
 
   #intercept ["proxima_mano"]

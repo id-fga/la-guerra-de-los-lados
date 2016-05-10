@@ -18,7 +18,7 @@ function($scope, $rootScope, $location, $routeParams) {
 				jugadorNumero: jugadorNumero
 	};
 
-	$scope.mano_nro;
+	$scope.mano_nro = 0;
 	$scope.guerra = 0;
 	$scope.puntaje_jugador1 = 0;
 	$scope.puntaje_jugador2 = 0;
@@ -103,6 +103,15 @@ function($scope, $rootScope, $location, $routeParams) {
 	$scope.jugar = function(opcion) {
 		$scope.tableroShow = false;
 		channel.push("jugar", opcion);
+	};
+
+	$scope.emergencia = function(sala_nombre, mano) {
+    o = {
+				'sala_nombre': sala_nombre,
+				'mano': mano
+		};
+
+    channel.push("emergencia", o);
 	};
 
 }]);
